@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICT 931 — Practice Questions (Weeks 1–6)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f5f7fa;
+      --card:#ffffff;
+      --text:#1a202c;
+      --muted:#4a5568;
+      --border:#e2e8f0;
+      --accent:#0066cc;
+      --accent2:#0891b2;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --shadow2: 0 4px 14px rgba(0,0,0,0.06);
+      --grad: linear-gradient(135deg, #0066cc 0%, #0891b2 100%);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Source Sans 3",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      min-height:100vh;
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:2rem}
+    header{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      box-shadow:var(--shadow2);
+      padding:2.25rem 2rem;
+      position:relative;
+      overflow:hidden;
+      text-align:center;
+    }
+    header::before{
+      content:"";
+      position:absolute;left:0;right:0;top:0;height:6px;
+      background:var(--grad);
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-family:"Outfit",sans-serif;
+      font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      color:var(--accent);
+      background:rgba(0,102,204,.08);
+      border:1px solid rgba(0,102,204,.15);
+      padding:.45rem 1rem;border-radius:999px;
+      margin-bottom:.75rem;
+    }
+    h1{
+      font-family:"Outfit",sans-serif;
+      font-size:2.2rem;
+      margin-bottom:.5rem;
+    }
+    .subtitle{color:var(--muted);max-width:720px;margin:0 auto}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:1rem;
+      margin-top:1.5rem;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow2);
+      padding:1.25rem 1.25rem 1rem;
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      display:flex;
+      flex-direction:column;
+      gap:.6rem;
+      min-height:150px;
+    }
+    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:rgba(0,102,204,.25)}
+    .wk{
+      display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+    }
+    .wk .pill{
+      font-family:"Outfit",sans-serif;
+      font-weight:700;
+      font-size:.78rem;
+      color:white;
+      background:var(--grad);
+      padding:.35rem .7rem;
+      border-radius:10px;
+      box-shadow:0 4px 12px rgba(0,102,204,.20);
+      white-space:nowrap;
+    }
+    .wk .icon{font-size:1.35rem}
+    .title{
+      font-family:"Outfit",sans-serif;
+      font-weight:700;
+      font-size:1.05rem;
+    }
+    .desc{color:var(--muted);font-size:.95rem;flex:1}
+    a.btn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.5rem;
+      padding:.7rem 1rem;
+      border-radius:12px;
+      border:1px solid rgba(0,102,204,.25);
+      color:var(--accent);
+      background:rgba(0,102,204,.05);
+      font-weight:700;
+      transition:background .15s ease, color .15s ease, border-color .15s ease;
+    }
+    a.btn:hover{
+      background:var(--grad);
+      color:white;
+      border-color:transparent;
+    }
+    .note{
+      margin-top:1.25rem;
+      background:rgba(8,145,178,.06);
+      border:1px solid rgba(8,145,178,.18);
+      border-left:5px solid var(--accent2);
+      padding:1rem 1.1rem;
+      border-radius:14px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    footer{
+      margin-top:1.75rem;
+      text-align:center;
+      color:#94a3b8;
+      font-size:.9rem;
+    }
+    @media (max-width: 760px){
+      .wrap{padding:1rem}
+      .grid{grid-template-columns:1fr}
+      h1{font-size:1.65rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">ICT 931 • Practice Questions</div>
+      <h1>Weeks 1–6</h1>
+      <p class="subtitle">One simple home page to access each week’s interactive practice questions. (Because clicking through 6 separate files is apparently too much for modern civilization.)</p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <div class="wk"><span class="pill">Week 1</span><span class="icon">📘</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">Interactive questions for Week 1.</div>
+        <a class="btn" href="W1-ICT931 Practice Questions.html">Open Week 1 →</a>
+      </div>
+
+      <div class="card">
+        <div class="wk"><span class="pill">Week 2</span><span class="icon">🧪</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">Interactive questions for Week 2.</div>
+        <a class="btn" href="W2-ICT931 Practice Questions.html">Open Week 2 →</a>
+      </div>
+
+      <div class="card">
+        <div class="wk"><span class="pill">Week 3</span><span class="icon">🧩</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">Interactive questions for Week 3.</div>
+        <a class="btn" href="W3-ICT931 Practice Questions.html">Open Week 3 →</a>
+      </div>
+
+      <div class="card">
+        <div class="wk"><span class="pill">Week 4</span><span class="icon">🔍</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">Digital forensics foundations, evidence handling & case types.</div>
+        <a class="btn" href="W4-ICT931_Practice_Questions.html">Open Week 4 →</a>
+      </div>
+
+      <div class="card">
+        <div class="wk"><span class="pill">Week 5</span><span class="icon">🔄</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">Incident response, disaster recovery & business continuity planning.</div>
+        <a class="btn" href="W5-ICT931_Practice_Questions.html">Open Week 5 →</a>
+      </div>
+
+      <div class="card">
+        <div class="wk"><span class="pill">Week 6</span><span class="icon">☁️</span></div>
+        <div class="title">Practice Questions</div>
+        <div class="desc">AWS logging & monitoring: CloudTrail, CloudWatch, VPC Flow Logs & Security Hub.</div>
+        <a class="btn" href="W6-ICT931_Practice_Questions.html">Open Week 6 →</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>How to use:</strong> keep this <code>index.html</code> in the <em>same folder</em> as the week files. Then open <code>index.html</code> in a browser, or upload all files together to your Google Site / hosting location. If you rename any week file, update the matching link here.
+    </div>
+
+    <footer>© You, presumably. Built to reduce pointless clicking.</footer>
+  </div>
+</body>
+</html>

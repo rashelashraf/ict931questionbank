@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 931 - Week 4 Practice Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: #f0f4f8;
+            --bg-input: #f8fafc;
+            --accent-primary: #0066cc;
+            --accent-secondary: #0891b2;
+            --accent-success: #059669;
+            --accent-warning: #d97706;
+            --accent-error: #dc2626;
+            --accent-purple: #7c3aed;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #a0aec0;
+            --border-color: #e2e8f0;
+            --border-light: #edf2f7;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-header: linear-gradient(135deg, #0066cc 0%, #0891b2 100%);
+            --gradient-accent: linear-gradient(135deg, #0891b2 0%, #059669 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-shapes::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .bg-shapes::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(8, 145, 178, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2.5rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-header);
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-header);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.75rem;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.25);
+        }
+
+        .course-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            background: rgba(0, 102, 204, 0.08);
+            border: 1px solid rgba(0, 102, 204, 0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .week-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .week-indicator strong {
+            color: var(--accent-primary);
+        }
+
+        .progress-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .progress-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-input);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .progress-content {
+            flex: 1;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .progress-stats {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-icon {
+            font-size: 0.9rem;
+        }
+
+        .stat-correct { color: var(--accent-success); }
+        .stat-incorrect { color: var(--accent-error); }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-accent);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .section-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            background: var(--gradient-header);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 102, 204, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0, 102, 204, 0.2);
+        }
+
+        .question-card.correct {
+            border-color: var(--accent-success);
+            background: linear-gradient(to right, rgba(5, 150, 105, 0.02), transparent);
+        }
+
+        .question-card.incorrect {
+            border-color: var(--accent-error);
+            background: linear-gradient(to right, rgba(220, 38, 38, 0.02), transparent);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            background: var(--accent-secondary);
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .question-text strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.8rem 1rem;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-color);
+        }
+
+        .option.selected {
+            background: rgba(0, 102, 204, 0.05);
+            border-color: var(--accent-primary);
+        }
+
+        .option.correct-answer {
+            background: rgba(5, 150, 105, 0.08);
+            border-color: var(--accent-success);
+        }
+
+        .option.wrong-answer {
+            background: rgba(220, 38, 38, 0.05);
+            border-color: var(--accent-error);
+        }
+
+        .option-marker {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .option.selected .option-marker {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .option-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .option.selected .option-text {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.8rem 1rem;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-option:hover {
+            background: var(--bg-hover);
+        }
+
+        .checkbox-option.selected {
+            background: rgba(0, 102, 204, 0.05);
+            border-color: var(--accent-primary);
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            background: var(--bg-secondary);
+        }
+
+        .checkbox-option.selected .checkbox {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .checkbox svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            stroke-width: 3;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkbox-option.selected .checkbox svg {
+            opacity: 1;
+        }
+
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .matching-column h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .matching-item {
+            padding: 0.7rem 0.875rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: 0.875rem;
+        }
+
+        .matching-item .marker {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            background: var(--accent-warning);
+            padding: 0.2rem 0.45rem;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+
+        .matching-select {
+            width: 50px;
+            padding: 0.35rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .matching-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .ordering-instructions {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0 1rem;
+            font-style: italic;
+        }
+
+        .ordering-list {
+            margin-top: 0.5rem;
+        }
+
+        .ordering-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .ordering-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .drag-handle {
+            color: var(--text-muted);
+            cursor: grab;
+            font-size: 1rem;
+        }
+
+        .order-select {
+            width: 48px;
+            padding: 0.35rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .order-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .blank-input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-bottom: 2px dashed var(--accent-primary);
+            padding: 0.45rem 0.875rem;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            min-width: 160px;
+            transition: all 0.2s ease;
+        }
+
+        .blank-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .blank-input.correct {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        .blank-input.incorrect {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.05);
+        }
+
+        .tf-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .tf-option {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .tf-option:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-color);
+        }
+
+        .tf-option.selected {
+            border-color: var(--accent-primary);
+            background: rgba(0, 102, 204, 0.05);
+            color: var(--accent-primary);
+        }
+
+        .tf-option.correct-tf {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.08);
+            color: var(--accent-success);
+        }
+
+        .tf-option.incorrect-tf {
+            border-color: var(--accent-error);
+            background: rgba(220, 38, 38, 0.05);
+            color: var(--accent-error);
+        }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 1rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .answer-textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .answer-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .case-study-box {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.03) 0%, rgba(8, 145, 178, 0.03) 100%);
+            border: 1px solid rgba(0, 102, 204, 0.12);
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 0 12px 12px 0;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .case-study-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .case-study-text {
+            color: var(--text-secondary);
+            font-size: 0.925rem;
+            line-height: 1.7;
+        }
+
+        .sub-questions {
+            margin-top: 1.25rem;
+        }
+
+        .sub-question {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .sub-question:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .sub-question-text {
+            font-size: 0.925rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .sub-question-marker {
+            color: var(--accent-secondary);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .design-task-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(8, 145, 178, 0.03) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .design-task-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.65rem 1.35rem;
+            border: none;
+            border-radius: 9px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-header);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.35);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-check {
+            margin-top: 1rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(5, 150, 105, 0.06);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+            color: var(--accent-success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(220, 38, 38, 0.04);
+            border: 1px solid rgba(220, 38, 38, 0.15);
+            color: var(--accent-error);
+        }
+
+        .feedback.model {
+            background: rgba(0, 102, 204, 0.04);
+            border: 1px solid rgba(0, 102, 204, 0.15);
+            color: var(--text-secondary);
+        }
+
+        .feedback-header {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .hint-toggle {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            background: none;
+            border: none;
+            color: var(--accent-warning);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .hint-toggle:hover {
+            background: rgba(217, 119, 6, 0.06);
+        }
+
+        .hint-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: rgba(217, 119, 6, 0.06);
+            border: 1px solid rgba(217, 119, 6, 0.15);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .hint-content.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-light);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 2rem;
+        }
+
+        footer strong {
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media print {
+            .progress-container, .btn, .hint-toggle, .bg-shapes {
+                display: none !important;
+            }
+            .question-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+
+            .tf-options {
+                flex-direction: column;
+            }
+
+            .action-bar {
+                flex-direction: column;
+            }
+
+            .progress-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-icon">🔍</div>
+            <div class="course-badge">ICT 931</div>
+            <h1>Week 4 Practice Questions</h1>
+            <p class="subtitle">Digital Forensics & Investigations — Foundations, Evidence Handling & Case Types</p>
+            <div class="week-indicator">
+                <span>📅</span>
+                <span>Week <strong>4</strong> of 12</span>
+            </div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-icon">📊</div>
+            <div class="progress-content">
+                <div class="progress-header">
+                    <span class="progress-label">Your Progress</span>
+                    <div class="progress-stats">
+                        <span class="stat-item stat-correct">
+                            <span class="stat-icon">✓</span>
+                            <span id="correctCount">0</span>
+                        </span>
+                        <span class="stat-item stat-incorrect">
+                            <span class="stat-icon">✗</span>
+                            <span id="incorrectCount">0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: MCQ Single Answer -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">Multiple Choice — Single Correct Answer</h2>
+            </div>
+
+            <div class="question-card" data-question="mcq1" data-answer="C">
+                <div class="question-header">
+                    <span class="question-num">Q1</span>
+                    <p class="question-text">Which statement <strong>best describes</strong> the primary objective of digital forensics?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A">
+                        <span class="option-marker">A</span>
+                        <span class="option-text">Recovering files that were accidentally deleted by users</span>
+                    </div>
+                    <div class="option" data-value="B">
+                        <span class="option-marker">B</span>
+                        <span class="option-text">Monitoring network traffic to detect intrusions in real time</span>
+                    </div>
+                    <div class="option" data-value="C">
+                        <span class="option-marker">C</span>
+                        <span class="option-text">Systematically collecting, preserving, and analyzing digital evidence in a legally admissible manner</span>
+                    </div>
+                    <div class="option" data-value="D">
+                        <span class="option-marker">D</span>
+                        <span class="option-text">Installing security software to prevent future cyber attacks</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Digital forensics is about evidence — not prevention or monitoring. Think about what makes it distinct from other cybersecurity disciplines and why "legally admissible" matters.</div>
+            </div>
+
+            <div class="question-card" data-question="mcq2" data-answer="C">
+                <div class="question-header">
+                    <span class="question-num">Q2</span>
+                    <p class="question-text">A <strong>bit-stream image</strong> differs from a standard file backup because it:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A">
+                        <span class="option-marker">A</span>
+                        <span class="option-text">Compresses data to save storage space on the forensic workstation</span>
+                    </div>
+                    <div class="option" data-value="B">
+                        <span class="option-marker">B</span>
+                        <span class="option-text">Copies only the active files and ignores deleted data</span>
+                    </div>
+                    <div class="option" data-value="C">
+                        <span class="option-marker">C</span>
+                        <span class="option-text">Creates an exact bit-by-bit replica of the entire storage media, including deleted and slack space</span>
+                    </div>
+                    <div class="option" data-value="D">
+                        <span class="option-marker">D</span>
+                        <span class="option-text">Encrypts the original evidence to prevent tampering during storage</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">The key distinction is completeness — a bit-stream image captures everything, including areas a regular backup would skip entirely.</div>
+            </div>
+
+            <div class="question-card" data-question="mcq3" data-answer="B">
+                <div class="question-header">
+                    <span class="question-num">Q3</span>
+                    <p class="question-text">In the context of <strong>public-sector digital investigations</strong>, which constitutional amendment most directly governs the legality of searching and seizing digital evidence?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A">
+                        <span class="option-marker">A</span>
+                        <span class="option-text">First Amendment — Freedom of speech and expression</span>
+                    </div>
+                    <div class="option" data-value="B">
+                        <span class="option-marker">B</span>
+                        <span class="option-text">Fourth Amendment — Protection against unreasonable search and seizure</span>
+                    </div>
+                    <div class="option" data-value="C">
+                        <span class="option-marker">C</span>
+                        <span class="option-text">Fifth Amendment — Protection against self-incrimination</span>
+                    </div>
+                    <div class="option" data-value="D">
+                        <span class="option-marker">D</span>
+                        <span class="option-text">Sixth Amendment — Right to a speedy and public trial</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="mcq4" data-answer="C">
+                <div class="question-header">
+                    <span class="question-num">Q4</span>
+                    <p class="question-text">A forensic investigator uses a <strong>write-blocker</strong> primarily to:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A">
+                        <span class="option-marker">A</span>
+                        <span class="option-text">Increase the speed of the forensic imaging process</span>
+                    </div>
+                    <div class="option" data-value="B">
+                        <span class="option-marker">B</span>
+                        <span class="option-text">Encrypt data on the suspect's drive during acquisition</span>
+                    </div>
+                    <div class="option" data-value="C">
+                        <span class="option-marker">C</span>
+                        <span class="option-text">Prevent any data from being written to the original evidence media during examination</span>
+                    </div>
+                    <div class="option" data-value="D">
+                        <span class="option-marker">D</span>
+                        <span class="option-text">Recover deleted files from damaged sectors of the storage device</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">The core principle of evidence handling is preservation — you must ensure the original evidence remains exactly as it was found.</div>
+            </div>
+
+            <div class="question-card" data-question="mcq5" data-answer="D">
+                <div class="question-header">
+                    <span class="question-num">Q5</span>
+                    <p class="question-text">Which of the following <strong>best explains</strong> why private-sector investigations typically differ from public-sector investigations?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A">
+                        <span class="option-marker">A</span>
+                        <span class="option-text">Private-sector investigations never require evidence preservation</span>
+                    </div>
+                    <div class="option" data-value="B">
+                        <span class="option-marker">B</span>
+                        <span class="option-text">Private-sector investigators do not need any legal authorization</span>
+                    </div>
+                    <div class="option" data-value="C">
+                        <span class="option-marker">C</span>
+                        <span class="option-text">Public-sector investigations are always conducted without warrants</span>
+                    </div>
+                    <div class="option" data-value="D">
+                        <span class="option-marker">D</span>
+                        <span class="option-text">Private-sector investigations are governed by company policy and employment agreements rather than constitutional search-and-seizure protections</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Section 2: MCQ Multiple Answers -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Multiple Choice — Select All That Apply</h2>
+            </div>
+
+            <div class="question-card" data-question="multi1" data-answer="A,C,D">
+                <div class="question-header">
+                    <span class="question-num">Q6</span>
+                    <p class="question-text">Which of the following are <strong>essential requirements</strong> for a digital forensics workstation? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Write-blocking hardware or software capabilities</span>
+                    </div>
+                    <div class="checkbox-option" data-value="B">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Internet connection to social media platforms for open-source intelligence</span>
+                    </div>
+                    <div class="checkbox-option" data-value="C">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Sufficient storage capacity for forensic images and case data</span>
+                    </div>
+                    <div class="checkbox-option" data-value="D">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Validated forensic acquisition and analysis software</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Focus on what directly supports evidence integrity and forensic processing — not all tools are core requirements for the workstation itself.</div>
+            </div>
+
+            <div class="question-card" data-question="multi2" data-answer="A,B,D">
+                <div class="question-header">
+                    <span class="question-num">Q7</span>
+                    <p class="question-text">Which types of data can typically be <strong>recovered by forensic tools</strong> from storage media? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Deleted files whose disk clusters have not been overwritten</span>
+                    </div>
+                    <div class="checkbox-option" data-value="B">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Data fragments in file slack space and unallocated clusters</span>
+                    </div>
+                    <div class="checkbox-option" data-value="C">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Files that have been securely wiped using multi-pass overwrite methods</span>
+                    </div>
+                    <div class="checkbox-option" data-value="D">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Metadata and timestamps associated with file operations</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="multi3" data-answer="A,B,C">
+                <div class="question-header">
+                    <span class="question-num">Q8</span>
+                    <p class="question-text">Maintaining a proper <strong>chain of custody</strong> requires which of the following? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Documenting every person who handled the evidence and when</span>
+                    </div>
+                    <div class="checkbox-option" data-value="B">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Using cryptographic hash values to verify evidence integrity</span>
+                    </div>
+                    <div class="checkbox-option" data-value="C">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Securely storing evidence with controlled access</span>
+                    </div>
+                    <div class="checkbox-option" data-value="D">
+                        <div class="checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <span class="option-text">Publishing evidence details on the company intranet for transparency</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Chain of custody is about accountability, integrity verification, and controlled access — think about what protects evidence, not what broadcasts it.</div>
+            </div>
+        </section>
+
+        <!-- Section 3: Matching Questions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Matching Questions</h2>
+            </div>
+
+            <div class="question-card" data-question="match1">
+                <div class="question-header">
+                    <span class="question-num">Q9</span>
+                    <p class="question-text">Match each <strong>forensic investigation concept</strong> on the left with its correct description on the right:</p>
+                </div>
+                <div class="matching-container">
+                    <div class="matching-column">
+                        <h4>Concepts</h4>
+                        <div class="matching-item">
+                            <span class="marker">A</span>
+                            <span>Bit-stream image</span>
+                            <select class="matching-select" data-term="A">
+                                <option value="">—</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">B</span>
+                            <span>Chain of custody</span>
+                            <select class="matching-select" data-term="B">
+                                <option value="">—</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">C</span>
+                            <span>Write-blocker</span>
+                            <select class="matching-select" data-term="C">
+                                <option value="">—</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">D</span>
+                            <span>Slack space</span>
+                            <select class="matching-select" data-term="D">
+                                <option value="">—</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="matching-column">
+                        <h4>Descriptions</h4>
+                        <div class="matching-item">
+                            <span class="marker">1</span>
+                            <span>Device that prevents modification of original evidence during acquisition</span>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">2</span>
+                            <span>Exact bit-by-bit duplicate of an entire storage device</span>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">3</span>
+                            <span>Unused area within a file's allocated disk cluster that may contain remnant data</span>
+                        </div>
+                        <div class="matching-item">
+                            <span class="marker">4</span>
+                            <span>Documented record tracking who handled evidence, when, and where</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMatching(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Section 4: Ordering Questions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Ordering Questions</h2>
+            </div>
+
+            <div class="question-card" data-question="order1">
+                <div class="question-header">
+                    <span class="question-num">Q10</span>
+                    <p class="question-text">Arrange the following steps of a <strong>digital forensic investigation</strong> in the correct chronological sequence:</p>
+                </div>
+                <p class="ordering-instructions">Use the dropdown to assign the correct order number (1 = first step)</p>
+                <div class="ordering-list">
+                    <div class="ordering-item" data-item="identify">
+                        <span class="drag-handle">⋮⋮</span>
+                        <select class="order-select">
+                            <option value="">—</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Identify and secure the crime scene</span>
+                    </div>
+                    <div class="ordering-item" data-item="acquire">
+                        <span class="drag-handle">⋮⋮</span>
+                        <select class="order-select">
+                            <option value="">—</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Acquire and create forensic image of evidence</span>
+                    </div>
+                    <div class="ordering-item" data-item="analyze">
+                        <span class="drag-handle">⋮⋮</span>
+                        <select class="order-select">
+                            <option value="">—</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Analyze the forensic copy for relevant evidence</span>
+                    </div>
+                    <div class="ordering-item" data-item="document">
+                        <span class="drag-handle">⋮⋮</span>
+                        <select class="order-select">
+                            <option value="">—</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Document findings and prepare forensic report</span>
+                    </div>
+                    <div class="ordering-item" data-item="present">
+                        <span class="drag-handle">⋮⋮</span>
+                        <select class="order-select">
+                            <option value="">—</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <span>Present evidence in legal or disciplinary proceedings</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkOrdering(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Think logically: you can't image what you haven't secured, you can't analyze what you haven't imaged, and reporting comes before the courtroom.</div>
+            </div>
+        </section>
+
+        <!-- Section 5: Fill in the Blanks -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Fill in the Blanks</h2>
+            </div>
+
+            <div class="question-card" data-question="blank1">
+                <div class="question-header">
+                    <span class="question-num">Q11</span>
+                    <p class="question-text">A <input type="text" class="blank-input" placeholder="Type your answer..." data-answer="bit-stream"> image is a bit-by-bit copy of the original storage media, including all deleted files, slack space, and unallocated areas.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">This type of image captures every single bit — the name describes how data flows during the copying process.</div>
+            </div>
+
+            <div class="question-card" data-question="blank2">
+                <div class="question-header">
+                    <span class="question-num">Q12</span>
+                    <p class="question-text">The <input type="text" class="blank-input" placeholder="Type your answer..." data-answer="Fourth"> Amendment to the U.S. Constitution protects individuals against unreasonable search and seizure of digital evidence.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="blank3">
+                <div class="question-header">
+                    <span class="question-num">Q13</span>
+                    <p class="question-text">When a file is deleted, the operating system typically removes its pointer in the file allocation table but the actual data remains on disk until it is <input type="text" class="blank-input" placeholder="Type your answer..." data-answer="overwritten">.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">The data stays in place — it only disappears permanently when new data is written on top of those same disk clusters.</div>
+            </div>
+
+            <div class="question-card" data-question="blank4">
+                <div class="question-header">
+                    <span class="question-num">Q14</span>
+                    <p class="question-text">Investigators use cryptographic <input type="text" class="blank-input" placeholder="Type your answer..." data-answer="hash"> values (such as MD5 or SHA-256) to verify that a forensic image is an exact replica of the original evidence.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Section 6: True / False -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2 class="section-title">True or False</h2>
+            </div>
+
+            <div class="question-card" data-question="tf1" data-answer="false">
+                <div class="question-header">
+                    <span class="question-num">Q15</span>
+                    <p class="question-text">Digital forensic investigators should always analyze evidence directly on the original storage media to ensure accuracy.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">A core principle of forensics is never working on the original — think about what happens to the evidence's legal standing if it is modified.</div>
+            </div>
+
+            <div class="question-card" data-question="tf2" data-answer="true">
+                <div class="question-header">
+                    <span class="question-num">Q16</span>
+                    <p class="question-text">Private-sector forensic investigations may be initiated based on violations of an organization's acceptable use policy without requiring a court-issued warrant.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="tf3" data-answer="true">
+                <div class="question-header">
+                    <span class="question-num">Q17</span>
+                    <p class="question-text">Deleted files can often be recovered because the file system only removes the directory reference, not the actual data stored on the disk clusters.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="tf4" data-answer="false">
+                <div class="question-header">
+                    <span class="question-num">Q18</span>
+                    <p class="question-text">A forensic investigator's personal opinions about the suspect's guilt should be included in the forensic report to assist the court's decision.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Professional conduct demands objectivity — forensic reports should present facts and findings, not subjective conclusions about guilt or innocence.</div>
+            </div>
+        </section>
+
+        <!-- Section 7: Short Answer Questions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2 class="section-title">Short Answer Questions</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q19</span>
+                    <p class="question-text">Define <strong>digital forensics</strong> and explain why a systematic methodology is critical to the discipline.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Definition:&lt;/strong&gt;\nDigital forensics is the application of scientific methods to systematically identify, collect, preserve, examine, and analyze digital evidence from electronic devices and storage media, with the goal of presenting findings in a manner that is legally admissible.\n\n&lt;strong&gt;Why a Systematic Methodology is Critical:&lt;/strong&gt;\n\n1. &lt;strong&gt;Legal Admissibility:&lt;/strong&gt; Courts require evidence to have been collected and handled following established, repeatable procedures. Ad-hoc approaches can render evidence inadmissible.\n\n2. &lt;strong&gt;Evidence Integrity:&lt;/strong&gt; A systematic approach ensures the original evidence is never altered — each step includes verification (e.g., hash comparisons) to prove nothing has changed.\n\n3. &lt;strong&gt;Repeatability:&lt;/strong&gt; Another qualified examiner should be able to follow the same steps and arrive at the same conclusions. This is essential for peer review and cross-examination.\n\n4. &lt;strong&gt;Completeness:&lt;/strong&gt; A structured methodology ensures no critical steps are missed, such as documenting the scene, capturing volatile data first, or maintaining chain of custody.\n\n5. &lt;strong&gt;Professional Credibility:&lt;/strong&gt; Investigators who follow established frameworks (e.g., NIST guidelines) demonstrate competence and objectivity.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q20</span>
+                    <p class="question-text">Explain the <strong>key differences</strong> between public-sector and private-sector digital investigations, including legal authority and typical triggers.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Public-Sector Investigations:&lt;/strong&gt;\n• Conducted by law enforcement agencies or government bodies\n• Triggered by suspected violations of criminal law (e.g., fraud, child exploitation, hacking)\n• Governed by constitutional protections, particularly the Fourth Amendment (search and seizure)\n• Typically require a warrant or court order before seizing digital evidence\n• Must demonstrate probable cause to obtain authorization\n• Evidence must meet strict admissibility standards for criminal prosecution\n\n&lt;strong&gt;Private-Sector Investigations:&lt;/strong&gt;\n• Conducted by corporate security teams, HR departments, or hired consultants\n• Triggered by policy violations, employee misconduct, data breaches, or compliance audits\n• Governed primarily by company policies, employment agreements, and acceptable use policies\n• Warrants are generally not required — authorization comes from organizational authority (e.g., company owns the equipment)\n• Still must comply with relevant privacy laws and regulations\n• May be escalated to law enforcement if criminal activity is discovered\n\n&lt;strong&gt;Key Distinction:&lt;/strong&gt; Public-sector investigations are bound by constitutional restrictions and criminal procedure requirements, while private-sector investigations operate under corporate governance — but both require proper evidence handling to maintain integrity.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q21</span>
+                    <p class="question-text">Explain why <strong>deleted files can still be recovered</strong> from storage media, and under what circumstances recovery becomes impossible.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Why Deleted Files Can Be Recovered:&lt;/strong&gt;\nWhen a file is deleted, the operating system does not actually erase the data from the storage media. Instead, it:\n• Removes the file\'s entry from the directory or file allocation table\n• Marks the clusters (disk space) previously occupied by the file as \"available\" for reuse\n• The actual binary data remains physically intact on the disk surface\n\nForensic tools can scan unallocated clusters and reconstruct files by identifying file headers, data patterns, and remnant metadata — a process called &lt;strong&gt;file carving&lt;/strong&gt;.\n\n&lt;strong&gt;When Recovery Becomes Impossible:&lt;/strong&gt;\n• &lt;strong&gt;Overwriting:&lt;/strong&gt; When new data is written to the same clusters, the original data is permanently replaced\n• &lt;strong&gt;Secure wiping:&lt;/strong&gt; Multi-pass overwrite tools (e.g., DBAN) write random patterns over every cluster multiple times\n• &lt;strong&gt;Physical destruction:&lt;/strong&gt; Degaussing, shredding, or incineration of the storage media\n• &lt;strong&gt;SSD TRIM operations:&lt;/strong&gt; On solid-state drives, the TRIM command can instruct the drive to clear deleted data blocks, making recovery significantly more difficult\n• &lt;strong&gt;Encryption:&lt;/strong&gt; If full-disk encryption was used and the key is unavailable, recovered data will be unintelligible')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q22</span>
+                    <p class="question-text">Describe how the forensic tool <strong>Autopsy</strong> can assist an investigator in analyzing evidence from a USB drive.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Autopsy&lt;/strong&gt; is an open-source digital forensics platform built on The Sleuth Kit framework. When analyzing a USB drive, it can assist investigators in the following ways:\n\n1. &lt;strong&gt;Forensic Image Ingestion:&lt;/strong&gt; Load a bit-stream image of the USB drive (e.g., E01 or dd format) for non-destructive analysis — the original drive remains untouched.\n\n2. &lt;strong&gt;File System Analysis:&lt;/strong&gt; Parse FAT, NTFS, exFAT and other file systems to display directory structures, including hidden and system files.\n\n3. &lt;strong&gt;Deleted File Recovery:&lt;/strong&gt; Identify and recover deleted files by scanning unallocated space and orphaned file entries.\n\n4. &lt;strong&gt;Keyword Searching:&lt;/strong&gt; Perform indexed searches across all files (including slack space and unallocated areas) for specific terms, names, or patterns.\n\n5. &lt;strong&gt;Timeline Analysis:&lt;/strong&gt; Generate chronological timelines of file creation, modification, and access events to reconstruct user activity.\n\n6. &lt;strong&gt;Hash Analysis:&lt;/strong&gt; Calculate and compare MD5/SHA-256 hashes against known file databases (e.g., NSRL) to identify known files or flag suspicious ones.\n\n7. &lt;strong&gt;Metadata Extraction:&lt;/strong&gt; Extract EXIF data from images, document properties, and other embedded metadata.\n\n8. &lt;strong&gt;Reporting:&lt;/strong&gt; Generate structured reports with tagged evidence items for inclusion in case documentation.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Section 8: Case Study Questions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2 class="section-title">Case Study Analysis</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q23</span>
+                    <p class="question-text">Internet Abuse Investigation</p>
+                </div>
+                <div class="case-study-box">
+                    <div class="case-study-label">📋 Scenario</div>
+                    <p class="case-study-text">A mid-sized financial services company has received reports that an employee in the accounting department has been spending significant work hours accessing non-work-related websites, including streaming services, online gambling platforms, and personal social media. The employee's manager has also noticed a sharp decline in productivity over the past three months. The company's acceptable use policy (AUP) clearly prohibits personal internet use during working hours. HR has requested a formal digital investigation before proceeding with disciplinary action.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Identify <strong>at least four sources of digital evidence</strong> you would collect in this investigation.</p>
+                        <textarea class="answer-textarea" placeholder="Evidence sources: 1. ... 2. ... 3. ... 4. ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> What <strong>forensic tools and techniques</strong> would you use to examine the evidence?</p>
+                        <textarea class="answer-textarea" placeholder="Tools and techniques: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Outline the <strong>step-by-step investigation process</strong> you would follow, ensuring evidence remains defensible.</p>
+                        <textarea class="answer-textarea" placeholder="Investigation steps: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Sources of Digital Evidence:&lt;/strong&gt;\n1. Web proxy/firewall logs — showing URLs visited, timestamps, and data volume\n2. Browser history, cache, and cookies from the employee\'s workstation\n3. DNS query logs — recording domain name lookups from the employee\'s machine\n4. Network traffic logs — showing bandwidth usage patterns and connection durations\n5. Email records — if the employee received links or notifications from these services\n6. Application logs — recording which programs were running and for how long\n7. Workstation login/logout records — correlating internet activity with work hours\n\n&lt;strong&gt;Forensic Tools and Techniques:&lt;/strong&gt;\n• &lt;strong&gt;Autopsy / FTK:&lt;/strong&gt; Analyze a forensic image of the workstation hard drive for browser artifacts, cached pages, and download history\n• &lt;strong&gt;Web proxy analysis tools:&lt;/strong&gt; Parse and filter proxy logs by user, time, and URL category\n• &lt;strong&gt;Wireshark / NetFlow:&lt;/strong&gt; Analyze captured network traffic for streaming or gambling connections\n• &lt;strong&gt;Timeline analysis:&lt;/strong&gt; Correlate timestamps across multiple evidence sources\n• &lt;strong&gt;Hash verification:&lt;/strong&gt; Ensure forensic image integrity throughout the process\n\n&lt;strong&gt;Step-by-Step Investigation Process:&lt;/strong&gt;\n1. Receive formal authorization from HR/management (written request)\n2. Review the company\'s AUP and relevant employment agreements\n3. Preserve existing log files before rotation or deletion\n4. Create a forensic image of the employee\'s workstation using a write-blocker\n5. Generate and record hash values of the forensic image\n6. Analyze browser artifacts, proxy logs, and network records on the forensic copy\n7. Correlate findings across multiple evidence sources with timestamps\n8. Document all findings objectively — avoid speculation or bias\n9. Prepare a formal report presenting the facts and evidence\n10. Maintain chain of custody documentation throughout\n11. Present findings to HR/management and legal counsel as requested')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q24</span>
+                    <p class="question-text">Live Evidence Handling Scenario</p>
+                </div>
+                <div class="case-study-box">
+                    <div class="case-study-label">📋 Scenario</div>
+                    <p class="case-study-text">You are a digital forensic investigator called to a corporate office where a suspect's desktop computer is still powered on and running. The screen shows an open email client and several browser tabs. Management believes the employee has been exfiltrating confidential client data to a personal cloud storage account. You must secure and preserve the evidence without compromising its integrity or legal admissibility.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> What should be your <strong>first actions</strong> upon arriving at the scene, and why?</p>
+                        <textarea class="answer-textarea" placeholder="First actions: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Identify the specific <strong>risks</strong> associated with this live-system scenario that could compromise the investigation.</p>
+                        <textarea class="answer-textarea" placeholder="Risks: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Describe how you would <strong>preserve both volatile and non-volatile evidence</strong> from this machine.</p>
+                        <textarea class="answer-textarea" placeholder="Evidence preservation approach: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;First Actions Upon Arrival:&lt;/strong&gt;\n1. &lt;strong&gt;Secure the scene:&lt;/strong&gt; Restrict physical access — ensure no one touches the computer or removes any devices. Document who is present.\n2. &lt;strong&gt;Photograph everything:&lt;/strong&gt; Take photos of the screen, open applications, cable connections, and the physical environment before touching anything.\n3. &lt;strong&gt;Do NOT power off the machine yet:&lt;/strong&gt; A running system contains volatile data (RAM, active network connections, running processes) that will be permanently lost upon shutdown.\n4. &lt;strong&gt;Begin documentation:&lt;/strong&gt; Note the date, time, system state, and all observations. Start the chain of custody record.\n\n&lt;strong&gt;Risks in This Scenario:&lt;/strong&gt;\n• &lt;strong&gt;Volatile data loss:&lt;/strong&gt; Powering off destroys RAM contents, active sessions, encryption keys in memory, and running process information\n• &lt;strong&gt;Evidence tampering:&lt;/strong&gt; The suspect or unauthorized persons could alter or delete data if the scene is not secured\n• &lt;strong&gt;Remote wiping:&lt;/strong&gt; If the machine is connected to the network, remote commands could trigger data destruction\n• &lt;strong&gt;Automated processes:&lt;/strong&gt; Scheduled tasks, auto-delete scripts, or self-destructing messages may be running\n• &lt;strong&gt;Encryption:&lt;/strong&gt; If full-disk encryption is active, shutting down may lock access to the drive permanently\n• &lt;strong&gt;Anti-forensics:&lt;/strong&gt; The suspect may have installed tools that wipe evidence on logout or shutdown\n\n&lt;strong&gt;Preserving Volatile and Non-Volatile Evidence:&lt;/strong&gt;\n\n&lt;em&gt;Volatile Evidence (capture first — order of volatility):&lt;/em&gt;\n1. Capture RAM contents using forensic memory imaging tools (e.g., FTK Imager, Magnet RAM Capture)\n2. Document running processes, open files, and active network connections\n3. Record logged-in users and active sessions\n4. Capture the system clock and compare to actual time\n5. Record network connection state (ARP cache, routing tables, open ports)\n\n&lt;em&gt;Then handle Non-Volatile Evidence:&lt;/em&gt;\n1. Disconnect the network cable (to prevent remote wiping) after volatile capture\n2. Perform a controlled shutdown if appropriate, or pull the power plug if anti-forensic risks are high\n3. Remove the hard drive and connect via write-blocker\n4. Create a bit-stream forensic image and verify with hash values\n5. Secure original media in an evidence bag with proper labeling\n6. Maintain chain of custody for all items collected')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- Section 9: Applied Design Question -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">09</span>
+                <h2 class="section-title">Applied Design Question</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q25</span>
+                    <p class="question-text">Employee Data Theft Investigation Design</p>
+                </div>
+                <div class="design-task-box">
+                    <div class="design-task-label">🎯 Design Task</div>
+                    <p class="case-study-text">A recently terminated software developer is suspected of copying proprietary source code and confidential client databases onto a personal USB drive during their final week of employment. The company wants to pursue both internal disciplinary proceedings and potential legal action. You have been hired as the lead forensic investigator. Design a <strong>comprehensive investigation plan</strong> that addresses evidence collection, analysis, and reporting. Your answer should reference forensic tools and techniques discussed in Week 4 lecture material.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Outline the <strong>investigation steps</strong> you would follow from initial engagement to final report delivery.</p>
+                        <textarea class="answer-textarea" placeholder="Investigation steps: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Identify the <strong>critical evidence sources</strong> and explain what type of data from each source would be most relevant.</p>
+                        <textarea class="answer-textarea" placeholder="Evidence sources and relevant data: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Explain how <strong>log analysis</strong> and <strong>timeline reconstruction</strong> would support your findings in this case.</p>
+                        <textarea class="answer-textarea" placeholder="Role of log analysis and timeline: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Investigation Steps:&lt;/strong&gt;\n\n1. &lt;strong&gt;Engagement and Authorization:&lt;/strong&gt;\n   • Receive written authorization from management and legal counsel\n   • Define the scope of the investigation and expected deliverables\n   • Review relevant policies (AUP, NDA, employment contract, IP agreements)\n\n2. &lt;strong&gt;Evidence Identification and Preservation:&lt;/strong&gt;\n   • Identify all devices the employee had access to (workstation, laptop, servers)\n   • Immediately preserve the employee\'s workstation — do not allow IT to reimage it\n   • Secure and preserve relevant server logs before rotation\n   • If the USB drive can be recovered (e.g., from the employee), image it with a write-blocker\n\n3. &lt;strong&gt;Forensic Acquisition:&lt;/strong&gt;\n   • Create bit-stream images of all relevant storage media using validated tools (FTK Imager, dd)\n   • Use write-blockers to prevent any modification to original evidence\n   • Generate MD5 and SHA-256 hash values and document them\n   • Establish and maintain chain of custody throughout\n\n4. &lt;strong&gt;Analysis:&lt;/strong&gt;\n   • Analyze forensic images using Autopsy/FTK/EnCase\n   • Search for USB device connection artifacts (registry entries, setupapi.log, event logs)\n   • Examine file access timestamps to identify when files were copied\n   • Perform keyword searches for source code filenames and database names\n   • Analyze deleted files and recycle bin contents\n   • Check cloud storage client logs (Dropbox, Google Drive, OneDrive)\n\n5. &lt;strong&gt;Reporting and Presentation:&lt;/strong&gt;\n   • Prepare objective, factual forensic report with supporting exhibits\n   • Include hash verification records and chain of custody documentation\n   • Present findings to legal counsel and management\n\n&lt;strong&gt;Critical Evidence Sources:&lt;/strong&gt;\n\n• &lt;strong&gt;Employee Workstation:&lt;/strong&gt; USB connection history (Windows registry, Event Logs), recently accessed files, file copy timestamps, installed applications\n• &lt;strong&gt;File Server / Source Code Repository:&lt;/strong&gt; Access logs showing which files were accessed and when, checkout/download records, permission changes\n• &lt;strong&gt;Active Directory / Authentication Logs:&lt;/strong&gt; Login times, after-hours access, VPN connections during final week\n• &lt;strong&gt;Email Server:&lt;/strong&gt; Emails with attachments sent to personal addresses, evidence of intent\n• &lt;strong&gt;Network Logs / DLP:&lt;/strong&gt; Large file transfers, unusual data volumes, connections to external storage services\n• &lt;strong&gt;USB Drive (if recovered):&lt;/strong&gt; Copied files, timestamps confirming when data was transferred\n\n&lt;strong&gt;Role of Log Analysis and Timeline Reconstruction:&lt;/strong&gt;\n\n&lt;em&gt;Log Analysis:&lt;/em&gt;\n• Windows Event Logs reveal USB device connections (Event IDs 2003, 2100, 2101 in setupapi logs)\n• File server audit logs show exact files accessed, by whom, and at what time\n• Network logs can confirm large data transfers correlated with USB insertion times\n• Email logs can reveal if the employee sent sensitive files externally\n\n&lt;em&gt;Timeline Reconstruction:&lt;/em&gt;\n• Correlating timestamps across multiple evidence sources creates a coherent narrative\n• Establishes a sequence: When did the employee access the files? When was the USB connected? How long was data being copied?\n• Helps distinguish between normal work activity and suspicious behavior\n• Strengthens the case by showing patterns (e.g., data copying only occurred after termination notice was given)\n• Timeline artifacts from file system (MAC times — Modified, Accessed, Created) provide granular detail')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <div class="action-bar">
+            <button class="btn btn-primary" onclick="resetAll()">🔄 Reset All Answers</button>
+            <button class="btn btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        </div>
+
+        <footer>
+            <p><strong>ICT 931</strong> — Cybersecurity Incident Response</p>
+            <p>Week 4: Digital Forensics & Investigations</p>
+        </footer>
+    </div>
+
+    <script>
+        // Progress tracking
+        let totalQuestions = 18; // Auto-checkable questions
+        let answered = 0;
+        let correct = 0;
+        let incorrect = 0;
+
+        function updateProgress() {
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+        }
+
+        // MCQ Single Answer
+        document.querySelectorAll('.question-card .options .option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.options');
+                parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Checkbox Multiple Answer
+        document.querySelectorAll('.checkbox-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // True/False
+        document.querySelectorAll('.tf-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.tf-options');
+                parent.querySelectorAll('.tf-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        function checkMCQ(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            const correctAnswer = card.dataset.answer;
+            const selected = card.querySelector('.option.selected');
+            const feedback = card.querySelector('.feedback');
+            
+            if (!selected) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please select an answer</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            const selectedValue = selected.dataset.value;
+            card.classList.add('answered');
+            answered++;
+            
+            if (selectedValue === correctAnswer) {
+                card.classList.add('correct');
+                selected.classList.add('correct-answer');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                selected.classList.add('wrong-answer');
+                card.querySelector(`.option[data-value="${correctAnswer}"]`).classList.add('correct-answer');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is <strong>${correctAnswer}</strong>.`;
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function checkMulti(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            const correctAnswers = card.dataset.answer.split(',').sort();
+            const selected = Array.from(card.querySelectorAll('.checkbox-option.selected')).map(el => el.dataset.value).sort();
+            const feedback = card.querySelector('.feedback');
+            
+            if (selected.length === 0) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please select at least one answer</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            card.classList.add('answered');
+            answered++;
+            
+            const isCorrect = JSON.stringify(correctAnswers) === JSON.stringify(selected);
+            
+            if (isCorrect) {
+                card.classList.add('correct');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answers are: <strong>${correctAnswers.join(', ')}</strong>`;
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function checkTF(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            const correctAnswer = card.dataset.answer;
+            const selected = card.querySelector('.tf-option.selected');
+            const feedback = card.querySelector('.feedback');
+            
+            if (!selected) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please select True or False</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            const selectedValue = selected.dataset.value;
+            card.classList.add('answered');
+            answered++;
+            
+            if (selectedValue === correctAnswer) {
+                card.classList.add('correct');
+                selected.classList.add('correct-tf');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                selected.classList.add('incorrect-tf');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is <strong>${correctAnswer.charAt(0).toUpperCase() + correctAnswer.slice(1)}</strong>.`;
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function checkBlank(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            const input = card.querySelector('.blank-input');
+            const correctAnswer = input.dataset.answer.toLowerCase();
+            const userAnswer = input.value.trim().toLowerCase();
+            const feedback = card.querySelector('.feedback');
+            
+            if (!userAnswer) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please enter an answer</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            card.classList.add('answered');
+            answered++;
+            
+            // Allow flexibility in matching
+            const isCorrect = userAnswer === correctAnswer || 
+                             userAnswer.includes(correctAnswer) ||
+                             correctAnswer.includes(userAnswer) ||
+                             (correctAnswer === 'bit-stream' && (userAnswer === 'bitstream' || userAnswer === 'bit stream')) ||
+                             (correctAnswer === 'fourth' && (userAnswer === '4th' || userAnswer === '4')) ||
+                             (correctAnswer === 'overwritten' && (userAnswer === 'overwrite' || userAnswer === 'over written')) ||
+                             (correctAnswer === 'hash' && (userAnswer === 'hashing' || userAnswer === 'hash value' || userAnswer === 'hash values'));
+            
+            if (isCorrect) {
+                card.classList.add('correct');
+                input.classList.add('correct');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                input.classList.add('incorrect');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is: <strong>${input.dataset.answer}</strong>`;
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            input.disabled = true;
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function checkMatching(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            // Correct matches: A=Bit-stream→2, B=Chain of custody→4, C=Write-blocker→1, D=Slack space→3
+            const correctMatches = { A: '2', B: '4', C: '1', D: '3' };
+            const selects = card.querySelectorAll('.matching-select');
+            const feedback = card.querySelector('.feedback');
+            
+            let allFilled = true;
+            let allCorrect = true;
+            
+            selects.forEach(select => {
+                if (!select.value) allFilled = false;
+                if (select.value !== correctMatches[select.dataset.term]) allCorrect = false;
+            });
+            
+            if (!allFilled) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please complete all matches</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            card.classList.add('answered');
+            answered++;
+            
+            if (allCorrect) {
+                card.classList.add('correct');
+                feedback.innerHTML = '<div class="feedback-header">✓ All matches correct!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.innerHTML = `<div class="feedback-header">✗ Some matches incorrect</div>Correct: Bit-stream image→2 (Exact duplicate), Chain of custody→4 (Documented record), Write-blocker→1 (Prevents modification), Slack space→3 (Remnant data area)`;
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            selects.forEach(s => s.disabled = true);
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function checkOrdering(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            
+            // Correct order: identify-1, acquire-2, analyze-3, document-4, present-5
+            const correctOrder = { identify: '1', acquire: '2', analyze: '3', document: '4', present: '5' };
+            const items = card.querySelectorAll('.ordering-item');
+            const feedback = card.querySelector('.feedback');
+            
+            let allFilled = true;
+            let allCorrect = true;
+            
+            items.forEach(item => {
+                const select = item.querySelector('.order-select');
+                if (!select.value) allFilled = false;
+                if (select.value !== correctOrder[item.dataset.item]) allCorrect = false;
+            });
+            
+            if (!allFilled) {
+                feedback.innerHTML = '<div class="feedback-header">⚠️ Please assign all sequence numbers</div>';
+                feedback.className = 'feedback show incorrect';
+                return;
+            }
+            
+            card.classList.add('answered');
+            answered++;
+            
+            if (allCorrect) {
+                card.classList.add('correct');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct sequence!</div>';
+                feedback.className = 'feedback show correct';
+                correct++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.innerHTML = '<div class="feedback-header">✗ Incorrect sequence</div>Correct order: 1. Identify & secure scene → 2. Acquire forensic image → 3. Analyze forensic copy → 4. Document findings → 5. Present evidence';
+                feedback.className = 'feedback show incorrect';
+                incorrect++;
+            }
+            
+            card.querySelectorAll('.order-select').forEach(s => s.disabled = true);
+            btn.disabled = true;
+            btn.textContent = 'Answered';
+            updateProgress();
+        }
+
+        function showModelAnswer(btn, answer) {
+            const feedback = btn.closest('.question-card').querySelector('.feedback');
+            feedback.innerHTML = `<div class="feedback-header" style="color: var(--accent-primary);">📝 Model Answer</div><div style="margin-top: 0.5rem; white-space: pre-line;">${answer}</div>`;
+            feedback.className = 'feedback show model';
+        }
+
+        function toggleHint(btn) {
+            const hint = btn.nextElementSibling;
+            hint.classList.toggle('show');
+            btn.textContent = hint.classList.contains('show') ? '💡 Hide Hint' : '💡 Show Hint';
+        }
+
+        function resetAll() {
+            if (confirm('Are you sure you want to reset all answers? This cannot be undone.')) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

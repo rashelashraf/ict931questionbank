@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 931 - Week 5 Practice Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: #f0f4f8;
+            --bg-input: #f8fafc;
+            --accent-primary: #0066cc;
+            --accent-secondary: #0891b2;
+            --accent-success: #059669;
+            --accent-warning: #d97706;
+            --accent-error: #dc2626;
+            --accent-purple: #7c3aed;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #a0aec0;
+            --border-color: #e2e8f0;
+            --border-light: #edf2f7;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient-header: linear-gradient(135deg, #0066cc 0%, #0891b2 100%);
+            --gradient-accent: linear-gradient(135deg, #0891b2 0%, #059669 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-shapes { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .bg-shapes::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,102,204,0.04) 0%, transparent 70%); border-radius: 50%; }
+        .bg-shapes::after { content: ''; position: absolute; bottom: -150px; left: -150px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(8,145,178,0.04) 0%, transparent 70%); border-radius: 50%; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+
+        header { text-align: center; margin-bottom: 2.5rem; padding: 2.5rem 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--gradient-header); }
+        .header-icon { width: 60px; height: 60px; background: var(--gradient-header); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.75rem; box-shadow: 0 4px 12px rgba(0,102,204,0.25); }
+        .course-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-primary); background: rgba(0,102,204,0.08); border: 1px solid rgba(0,102,204,0.15); padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 0.75rem; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto; }
+        .week-indicator { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1.25rem; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 25px; font-size: 0.85rem; color: var(--text-secondary); }
+        .week-indicator strong { color: var(--accent-primary); }
+
+        .progress-container { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; position: sticky; top: 1rem; z-index: 100; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 1.5rem; }
+        .progress-icon { width: 42px; height: 42px; background: var(--bg-input); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+        .progress-content { flex: 1; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .progress-label { font-family: 'Outfit', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--text-primary); }
+        .progress-stats { font-family: 'Outfit', sans-serif; font-size: 0.8rem; display: flex; gap: 1rem; }
+        .stat-item { display: flex; align-items: center; gap: 0.3rem; }
+        .stat-icon { font-size: 0.9rem; }
+        .stat-correct { color: var(--accent-success); }
+        .stat-incorrect { color: var(--accent-error); }
+        .progress-bar { height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gradient-accent); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+
+        .section { margin-bottom: 2.5rem; }
+        .section-header { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border-light); }
+        .section-number { font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 700; color: white; background: var(--gradient-header); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,102,204,0.2); }
+        .section-title { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+
+        .question-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.25s ease; box-shadow: var(--shadow-sm); }
+        .question-card:hover { box-shadow: var(--shadow-md); border-color: rgba(0,102,204,0.2); }
+        .question-card.correct { border-color: var(--accent-success); background: linear-gradient(to right, rgba(5,150,105,0.02), transparent); }
+        .question-card.incorrect { border-color: var(--accent-error); background: linear-gradient(to right, rgba(220,38,38,0.02), transparent); }
+
+        .question-header { display: flex; align-items: flex-start; gap: 0.875rem; margin-bottom: 1rem; }
+        .question-num { font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 700; color: white; background: var(--accent-secondary); padding: 0.3rem 0.65rem; border-radius: 6px; flex-shrink: 0; }
+        .question-text { font-size: 0.95rem; font-weight: 500; color: var(--text-primary); line-height: 1.6; }
+        .question-text strong { color: var(--accent-primary); font-weight: 600; }
+
+        .options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
+        .option { display: flex; align-items: center; gap: 0.875rem; padding: 0.8rem 1rem; background: var(--bg-input); border: 2px solid transparent; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: var(--bg-hover); border-color: var(--border-color); }
+        .option.selected { background: rgba(0,102,204,0.05); border-color: var(--accent-primary); }
+        .option.correct-answer { background: rgba(5,150,105,0.08); border-color: var(--accent-success); }
+        .option.wrong-answer { background: rgba(220,38,38,0.05); border-color: var(--accent-error); }
+        .option-marker { font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); background: var(--bg-secondary); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; border: 1px solid var(--border-color); transition: all 0.2s ease; }
+        .option.selected .option-marker { color: white; background: var(--accent-primary); border-color: var(--accent-primary); }
+        .option-text { font-size: 0.9rem; color: var(--text-secondary); }
+        .option.selected .option-text { color: var(--text-primary); font-weight: 500; }
+
+        .checkbox-option { display: flex; align-items: center; gap: 0.875rem; padding: 0.8rem 1rem; background: var(--bg-input); border: 2px solid transparent; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; }
+        .checkbox-option:hover { background: var(--bg-hover); }
+        .checkbox-option.selected { background: rgba(0,102,204,0.05); border-color: var(--accent-primary); }
+        .checkbox { width: 22px; height: 22px; border: 2px solid var(--border-color); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; background: var(--bg-secondary); }
+        .checkbox-option.selected .checkbox { background: var(--accent-primary); border-color: var(--accent-primary); }
+        .checkbox svg { width: 14px; height: 14px; stroke: white; stroke-width: 3; opacity: 0; transition: opacity 0.2s ease; }
+        .checkbox-option.selected .checkbox svg { opacity: 1; }
+
+        .matching-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+        .matching-column h4 { font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-light); }
+        .matching-item { padding: 0.7rem 0.875rem; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.65rem; font-size: 0.875rem; }
+        .matching-item .marker { font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 700; color: white; background: var(--accent-warning); padding: 0.2rem 0.45rem; border-radius: 5px; flex-shrink: 0; }
+        .matching-select { width: 50px; padding: 0.35rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-left: auto; }
+        .matching-select:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+
+        .ordering-instructions { font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1rem; font-style: italic; }
+        .ordering-list { margin-top: 0.5rem; }
+        .ordering-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 0.5rem; transition: all 0.2s ease; }
+        .ordering-item:hover { background: var(--bg-hover); }
+        .drag-handle { color: var(--text-muted); cursor: grab; font-size: 1rem; }
+        .order-select { width: 48px; padding: 0.35rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+        .order-select:focus { outline: none; border-color: var(--accent-primary); }
+
+        .blank-input { background: var(--bg-secondary); border: 1px solid var(--border-color); border-bottom: 2px dashed var(--accent-primary); padding: 0.45rem 0.875rem; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.9rem; border-radius: 6px; min-width: 160px; transition: all 0.2s ease; }
+        .blank-input:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+        .blank-input.correct { border-color: var(--accent-success); background: rgba(5,150,105,0.05); }
+        .blank-input.incorrect { border-color: var(--accent-error); background: rgba(220,38,38,0.05); }
+
+        .tf-options { display: flex; gap: 1rem; margin-top: 0.75rem; }
+        .tf-option { flex: 1; padding: 0.8rem; text-align: center; background: var(--bg-input); border: 2px solid transparent; border-radius: 10px; cursor: pointer; font-weight: 600; color: var(--text-secondary); transition: all 0.2s ease; }
+        .tf-option:hover { background: var(--bg-hover); border-color: var(--border-color); }
+        .tf-option.selected { border-color: var(--accent-primary); background: rgba(0,102,204,0.05); color: var(--accent-primary); }
+        .tf-option.correct-tf { border-color: var(--accent-success); background: rgba(5,150,105,0.08); color: var(--accent-success); }
+        .tf-option.incorrect-tf { border-color: var(--accent-error); background: rgba(220,38,38,0.05); color: var(--accent-error); }
+
+        .answer-textarea { width: 100%; min-height: 110px; padding: 1rem; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; line-height: 1.6; resize: vertical; margin-top: 1rem; transition: all 0.2s ease; }
+        .answer-textarea:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+        .answer-textarea::placeholder { color: var(--text-muted); }
+
+        .case-study-box { background: linear-gradient(135deg, rgba(0,102,204,0.03) 0%, rgba(8,145,178,0.03) 100%); border: 1px solid rgba(0,102,204,0.12); border-left: 4px solid var(--accent-primary); border-radius: 0 12px 12px 0; padding: 1.25rem; margin-bottom: 1.25rem; }
+        .case-study-label { font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .case-study-text { color: var(--text-secondary); font-size: 0.925rem; line-height: 1.7; }
+        .sub-questions { margin-top: 1.25rem; }
+        .sub-question { padding: 1rem 0; border-bottom: 1px solid var(--border-light); }
+        .sub-question:last-child { border-bottom: none; padding-bottom: 0; }
+        .sub-question-text { font-size: 0.925rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.5rem; }
+        .sub-question-marker { color: var(--accent-secondary); font-weight: bold; flex-shrink: 0; }
+
+        .design-task-box { background: linear-gradient(135deg, rgba(124,58,237,0.03) 0%, rgba(8,145,178,0.03) 100%); border: 1px solid rgba(124,58,237,0.15); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+        .design-task-label { font-family: 'Outfit', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-purple); margin-bottom: 0.5rem; }
+
+        .btn { padding: 0.65rem 1.35rem; border: none; border-radius: 9px; font-family: 'Source Sans 3', sans-serif; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: var(--gradient-header); color: white; box-shadow: 0 2px 8px rgba(0,102,204,0.25); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,102,204,0.35); }
+        .btn-secondary { background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--bg-hover); border-color: var(--accent-primary); color: var(--accent-primary); }
+        .btn-check { margin-top: 1rem; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+        .feedback { margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.9rem; display: none; }
+        .feedback.show { display: block; animation: slideIn 0.3s ease; }
+        .feedback.correct { background: rgba(5,150,105,0.06); border: 1px solid rgba(5,150,105,0.2); color: var(--accent-success); }
+        .feedback.incorrect { background: rgba(220,38,38,0.04); border: 1px solid rgba(220,38,38,0.15); color: var(--accent-error); }
+        .feedback.model { background: rgba(0,102,204,0.04); border: 1px solid rgba(0,102,204,0.15); color: var(--text-secondary); }
+        .feedback-header { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+
+        .hint-toggle { display: inline-block; margin-top: 0.75rem; padding: 0.35rem 0.75rem; background: none; border: none; color: var(--accent-warning); font-size: 0.85rem; font-weight: 500; cursor: pointer; border-radius: 6px; transition: background 0.2s ease; }
+        .hint-toggle:hover { background: rgba(217,119,6,0.06); }
+        .hint-content { display: none; margin-top: 0.75rem; padding: 0.875rem 1rem; background: rgba(217,119,6,0.06); border: 1px solid rgba(217,119,6,0.15); border-radius: 10px; font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+        .hint-content.show { display: block; animation: slideIn 0.3s ease; }
+
+        .action-bar { display: flex; gap: 1rem; justify-content: center; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-light); }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.875rem; margin-top: 2rem; }
+        footer strong { color: var(--text-secondary); }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @media print { .progress-container, .btn, .hint-toggle, .bg-shapes { display: none !important; } .question-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; } }
+        @media (max-width: 768px) { .container { padding: 1rem; } h1 { font-size: 1.75rem; } .matching-container { grid-template-columns: 1fr; } .tf-options { flex-direction: column; } .action-bar { flex-direction: column; } .progress-container { flex-direction: column; gap: 1rem; } }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-icon">🔄</div>
+            <div class="course-badge">ICT 931</div>
+            <h1>Week 5 Practice Questions</h1>
+            <p class="subtitle">Contingency Strategies — Incident Response, Disaster Recovery & Business Continuity Planning</p>
+            <div class="week-indicator">
+                <span>📅</span>
+                <span>Week <strong>5</strong> of 12</span>
+            </div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-icon">📊</div>
+            <div class="progress-content">
+                <div class="progress-header">
+                    <span class="progress-label">Your Progress</span>
+                    <div class="progress-stats">
+                        <span class="stat-item stat-correct"><span class="stat-icon">✓</span><span id="correctCount">0</span></span>
+                        <span class="stat-item stat-incorrect"><span class="stat-icon">✗</span><span id="incorrectCount">0</span></span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION 1: MCQ Single Answer ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">Multiple Choice — Single Correct Answer</h2>
+            </div>
+
+            <div class="question-card" data-question="mcq1" data-answer="B">
+                <div class="question-header">
+                    <span class="question-num">Q1</span>
+                    <p class="question-text">The <strong>primary goal</strong> of contingency planning (CP) is to:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">Prevent all cyberattacks from occurring in the first place</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">Prepare the organization to respond to, recover from, and resume operations after unexpected disruptions</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">Replace the incident response plan once disaster recovery is established</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">Eliminate the need for data backups by using redundant systems</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Contingency planning doesn't claim to prevent incidents — it prepares the organization to handle them. Think about what "contingency" actually means: planning for the unexpected.</div>
+            </div>
+
+            <div class="question-card" data-question="mcq2" data-answer="C">
+                <div class="question-header">
+                    <span class="question-num">Q2</span>
+                    <p class="question-text">When a major disaster renders the primary facility <strong>unusable for an extended period</strong>, which plan ensures that critical business functions continue operating at an alternate location?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">Incident Response Plan (IRP) — focuses on immediate containment and reaction</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">Disaster Recovery Plan (DRP) — focuses on restoring IT systems and infrastructure</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">Business Continuity Plan (BCP) — ensures critical business operations continue at an alternate site</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">Risk Assessment Plan — identifies and evaluates potential threats</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">The key phrase is "critical business functions continue operating." DRP restores technology; which plan keeps the business itself running?</div>
+            </div>
+
+            <div class="question-card" data-question="mcq3" data-answer="B">
+                <div class="question-header">
+                    <span class="question-num">Q3</span>
+                    <p class="question-text">A <strong>differential backup</strong> captures:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">Only the files modified since the last incremental backup</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">All files modified since the last full backup, regardless of intermediate backups</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">Every file on the system, identical to a full backup</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">Only the files that have been deleted since the last full backup</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="mcq4" data-answer="C">
+                <div class="question-header">
+                    <span class="question-num">Q4</span>
+                    <p class="question-text"><strong>RAID Level 1</strong> provides data redundancy by:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">Distributing data evenly across multiple disks without parity (striping)</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">Using parity information spread across three or more disks to rebuild lost data</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">Writing identical copies of data to two or more disks simultaneously (mirroring)</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">Virtualizing multiple physical disks into a single logical volume</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="mcq5" data-answer="B">
+                <div class="question-header">
+                    <span class="question-num">Q5</span>
+                    <p class="question-text">A <strong>hot site</strong> differs from a warm site primarily because a hot site:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">Is significantly less expensive to maintain on an ongoing basis</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">Has fully operational systems, applications, and up-to-date data ready for immediate failover</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">Contains no computing hardware and requires equipment to be shipped before use</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">Is exclusively used for data storage and cannot host business operations</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Think of the temperature analogy — "hot" means ready to go right now. What would need to be in place for immediate failover?</div>
+            </div>
+
+            <div class="question-card" data-question="mcq6" data-answer="D">
+                <div class="question-header">
+                    <span class="question-num">Q6</span>
+                    <p class="question-text">Which of the following <strong>best explains</strong> why RAID alone is not a substitute for a proper backup strategy?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-value="A"><span class="option-marker">A</span><span class="option-text">RAID arrays are incompatible with modern operating systems</span></div>
+                    <div class="option" data-value="B"><span class="option-marker">B</span><span class="option-text">RAID only protects against network-based attacks, not hardware failure</span></div>
+                    <div class="option" data-value="C"><span class="option-marker">C</span><span class="option-text">RAID automatically encrypts data, making recovery impossible</span></div>
+                    <div class="option" data-value="D"><span class="option-marker">D</span><span class="option-text">RAID protects against disk failure but cannot protect against ransomware, accidental deletion, corruption, or site-level disasters</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMCQ(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: MCQ Multiple Answers ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Multiple Choice — Select All That Apply</h2>
+            </div>
+
+            <div class="question-card" data-question="multi1" data-answer="A,B,D">
+                <div class="question-header">
+                    <span class="question-num">Q7</span>
+                    <p class="question-text">Which of the following are <strong>components of the contingency planning framework</strong> (CP)? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Incident Response Plan (IRP)</span></div>
+                    <div class="checkbox-option" data-value="B"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Disaster Recovery Plan (DRP)</span></div>
+                    <div class="checkbox-option" data-value="C"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Penetration Testing Plan</span></div>
+                    <div class="checkbox-option" data-value="D"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Business Continuity Plan (BCP)</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">The CP framework is built around three core plans that cover the full lifecycle of a disruption — from immediate response to long-term continuity.</div>
+            </div>
+
+            <div class="question-card" data-question="multi2" data-answer="A,C,D">
+                <div class="question-header">
+                    <span class="question-num">Q8</span>
+                    <p class="question-text">Which of the following are <strong>valid risks</strong> associated with storing backup media at an off-site location? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Physical theft or loss of media during transport</span></div>
+                    <div class="checkbox-option" data-value="B"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Backup data automatically becomes encrypted during transit</span></div>
+                    <div class="checkbox-option" data-value="C"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Increased retrieval time when data is needed for recovery</span></div>
+                    <div class="checkbox-option" data-value="D"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Environmental damage to media at the off-site facility (fire, flood, temperature)</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="multi3" data-answer="B,C,D">
+                <div class="question-header">
+                    <span class="question-num">Q9</span>
+                    <p class="question-text">Which factors give <strong>cloud-based backup</strong> an advantage over traditional tape backup for many organizations? <em>(Select all that apply)</em></p>
+                </div>
+                <div class="options">
+                    <div class="checkbox-option" data-value="A"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Cloud storage is always free for enterprise-scale data volumes</span></div>
+                    <div class="checkbox-option" data-value="B"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Automated scheduling and reduced manual handling of physical media</span></div>
+                    <div class="checkbox-option" data-value="C"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Geographic redundancy — data can be replicated across multiple regions</span></div>
+                    <div class="checkbox-option" data-value="D"><div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="option-text">Faster recovery times compared to physically transporting tapes</span></div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMulti(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: Matching ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Matching Questions</h2>
+            </div>
+
+            <div class="question-card" data-question="match1">
+                <div class="question-header">
+                    <span class="question-num">Q10</span>
+                    <p class="question-text">Match each <strong>alternate site type</strong> on the left with its correct description on the right:</p>
+                </div>
+                <div class="matching-container">
+                    <div class="matching-column">
+                        <h4>Site Type</h4>
+                        <div class="matching-item"><span class="marker">A</span><span>Hot site</span>
+                            <select class="matching-select" data-term="A"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                        </div>
+                        <div class="matching-item"><span class="marker">B</span><span>Warm site</span>
+                            <select class="matching-select" data-term="B"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                        </div>
+                        <div class="matching-item"><span class="marker">C</span><span>Cold site</span>
+                            <select class="matching-select" data-term="C"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                        </div>
+                        <div class="matching-item"><span class="marker">D</span><span>Mobile site</span>
+                            <select class="matching-select" data-term="D"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                        </div>
+                    </div>
+                    <div class="matching-column">
+                        <h4>Descriptions</h4>
+                        <div class="matching-item"><span class="marker">1</span><span>Basic facility with power and connectivity but no pre-installed hardware</span></div>
+                        <div class="matching-item"><span class="marker">2</span><span>Self-contained, transportable computing environment (e.g., trailer or container)</span></div>
+                        <div class="matching-item"><span class="marker">3</span><span>Fully operational duplicate with live data, ready for immediate failover</span></div>
+                        <div class="matching-item"><span class="marker">4</span><span>Has hardware and networking in place but requires software configuration and data restoration</span></div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkMatching(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Use the temperature analogy: hot = ready immediately, warm = partially ready, cold = empty shell. The mobile site is the portable option.</div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 4: Ordering ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Ordering Questions</h2>
+            </div>
+
+            <div class="question-card" data-question="order1">
+                <div class="question-header">
+                    <span class="question-num">Q11</span>
+                    <p class="question-text">Arrange the following <strong>contingency plan activations</strong> in the typical order they would occur during a major disaster scenario:</p>
+                </div>
+                <p class="ordering-instructions">Use the dropdown to assign the correct order number (1 = activated first)</p>
+                <div class="ordering-list">
+                    <div class="ordering-item" data-item="ir"><span class="drag-handle">⋮⋮</span>
+                        <select class="order-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <span>Incident Response — detect, contain, and assess the event</span>
+                    </div>
+                    <div class="ordering-item" data-item="escalate"><span class="drag-handle">⋮⋮</span>
+                        <select class="order-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <span>Escalation — determine that the incident qualifies as a disaster</span>
+                    </div>
+                    <div class="ordering-item" data-item="dr"><span class="drag-handle">⋮⋮</span>
+                        <select class="order-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <span>Disaster Recovery — restore IT systems, data, and infrastructure</span>
+                    </div>
+                    <div class="ordering-item" data-item="bc"><span class="drag-handle">⋮⋮</span>
+                        <select class="order-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <span>Business Continuity — operate critical business functions at alternate site</span>
+                    </div>
+                    <div class="ordering-item" data-item="return"><span class="drag-handle">⋮⋮</span>
+                        <select class="order-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <span>Return to Normal Operations — migrate back to primary or permanent site</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkOrdering(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Every disruption starts with detection (IR). Only if the incident is severe enough does it escalate to DR and then BC. Normal operations resume last.</div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 5: Fill in the Blanks ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Fill in the Blanks</h2>
+            </div>
+
+            <div class="question-card" data-question="blank1">
+                <div class="question-header">
+                    <span class="question-num">Q12</span>
+                    <p class="question-text">An <input type="text" class="blank-input" placeholder="Type backup type..." data-answer="incremental"> backup copies only the files that have changed since the last backup of any type, making it the fastest daily backup method but slower to restore.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">This backup type captures changes in small "increments" — each backup only contains what changed since the previous one (full or incremental).</div>
+            </div>
+
+            <div class="question-card" data-question="blank2">
+                <div class="question-header">
+                    <span class="question-num">Q13</span>
+                    <p class="question-text">RAID Level <input type="text" class="blank-input" placeholder="Type number..." data-answer="5" style="min-width: 60px;"> uses block-level striping with distributed parity, allowing the array to survive the failure of any single disk.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="blank3">
+                <div class="question-header">
+                    <span class="question-num">Q14</span>
+                    <p class="question-text"><input type="text" class="blank-input" placeholder="Type your answer..." data-answer="Electronic vaulting"> is the process of automatically transferring bulk backup data to an off-site facility over a network connection.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Think of a secure digital "vault" where large batches of backup data are sent electronically — not in real time, but in scheduled bulk transfers.</div>
+            </div>
+
+            <div class="question-card" data-question="blank4">
+                <div class="question-header">
+                    <span class="question-num">Q15</span>
+                    <p class="question-text">The three phases of contingency planning that organizations must prepare for are: <input type="text" class="blank-input" placeholder="Type first phase..." data-answer="incident response">, disaster recovery, and business continuity.</p>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkBlank(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 6: True / False ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2 class="section-title">True or False</h2>
+            </div>
+
+            <div class="question-card" data-question="tf1" data-answer="false">
+                <div class="question-header">
+                    <span class="question-num">Q16</span>
+                    <p class="question-text">A cold site is the most expensive alternate site option because it requires the most preparation before activation.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Cost correlates with readiness, not preparation effort. Which site has the most infrastructure sitting idle and ready — and therefore costs the most to maintain?</div>
+            </div>
+
+            <div class="question-card" data-question="tf2" data-answer="true">
+                <div class="question-header">
+                    <span class="question-num">Q17</span>
+                    <p class="question-text">An organization using RAID 5 that experiences a single disk failure can continue operating without data loss while the failed disk is replaced and rebuilt.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card" data-question="tf3" data-answer="false">
+                <div class="question-header">
+                    <span class="question-num">Q18</span>
+                    <p class="question-text">Differential backups are generally faster to perform each day than incremental backups because they copy less data.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+                <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+                <div class="hint-content">Differential backups grow larger each day because they accumulate all changes since the last full backup. Incremental backups only capture changes since the last backup of any type.</div>
+            </div>
+
+            <div class="question-card" data-question="tf4" data-answer="true">
+                <div class="question-header">
+                    <span class="question-num">Q19</span>
+                    <p class="question-text">Database systems typically require specialized backup procedures because standard file-level backups may capture the database in an inconsistent state if transactions are in progress.</p>
+                </div>
+                <div class="tf-options">
+                    <div class="tf-option" data-value="true">True</div>
+                    <div class="tf-option" data-value="false">False</div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="checkTF(this)">Check Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 7: Short Answer ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2 class="section-title">Short Answer Questions</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q20</span>
+                    <p class="question-text">Explain the <strong>relationship</strong> between Incident Response (IR), Disaster Recovery (DR), and Business Continuity (BC), and describe when each plan is activated during a major disruption.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Relationship:&lt;/strong&gt;\nIR, DR, and BC are three interconnected components of the contingency planning (CP) framework. They form a layered response system where each plan addresses a different phase and severity level of a disruption:\n\n&lt;strong&gt;Incident Response (IR) — Immediate Reaction:&lt;/strong&gt;\n• Activated first when any security incident or disruption is detected\n• Focuses on detecting, containing, and mitigating the immediate threat\n• Goal: Stop the damage, assess the scope, and determine if escalation is needed\n• If the incident is contained successfully, IR may be the only plan needed\n\n&lt;strong&gt;Disaster Recovery (DR) — IT Systems Restoration:&lt;/strong&gt;\n• Activated when IR determines that the incident has caused significant damage to IT infrastructure\n• Focuses on restoring information systems, data, networks, and technology services\n• Goal: Rebuild the technical environment — restore servers, databases, and applications from backups\n• Addresses the technology layer specifically\n\n&lt;strong&gt;Business Continuity (BC) — Ongoing Operations:&lt;/strong&gt;\n• Activated when the disruption is so severe or prolonged that the primary facility cannot support business operations\n• Focuses on ensuring critical business functions continue at an alternate location\n• Goal: Keep the organization running — payroll, customer service, core operations — while DR works on restoring systems\n• Addresses the business process layer\n\n&lt;strong&gt;Key Distinction:&lt;/strong&gt; IR handles the incident itself, DR restores the technology, and BC keeps the business alive. They typically activate in sequence: IR → DR → BC, though DR and BC may operate in parallel during major disasters.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q21</span>
+                    <p class="question-text">Compare <strong>incremental and differential backups</strong> in terms of backup speed, restore speed, storage requirements, and appropriate use cases.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Incremental Backup:&lt;/strong&gt;\n• &lt;strong&gt;What it captures:&lt;/strong&gt; Only files modified since the last backup of any type (full or incremental)\n• &lt;strong&gt;Backup speed:&lt;/strong&gt; Fastest daily backup — each session copies only that day\'s changes\n• &lt;strong&gt;Storage requirements:&lt;/strong&gt; Lowest — each incremental backup is small\n• &lt;strong&gt;Restore speed:&lt;/strong&gt; Slowest — requires the last full backup plus every subsequent incremental backup in sequence\n• &lt;strong&gt;Risk:&lt;/strong&gt; If any one incremental backup in the chain is corrupted, all subsequent data may be unrecoverable\n• &lt;strong&gt;Best for:&lt;/strong&gt; Organizations with limited backup windows and large data volumes where daily backup speed is critical\n\n&lt;strong&gt;Differential Backup:&lt;/strong&gt;\n• &lt;strong&gt;What it captures:&lt;/strong&gt; All files modified since the last full backup (regardless of intermediate differential backups)\n• &lt;strong&gt;Backup speed:&lt;/strong&gt; Slower than incremental — grows larger each day as it accumulates all changes since the last full backup\n• &lt;strong&gt;Storage requirements:&lt;/strong&gt; Higher than incremental — each differential backup contains all changes since the full backup\n• &lt;strong&gt;Restore speed:&lt;/strong&gt; Faster than incremental — requires only the last full backup plus the most recent differential backup\n• &lt;strong&gt;Risk:&lt;/strong&gt; Lower risk than incremental — only two backup sets needed for full restore\n• &lt;strong&gt;Best for:&lt;/strong&gt; Organizations that prioritize faster restore times and can tolerate larger daily backup windows\n\n&lt;strong&gt;Summary:&lt;/strong&gt; Incremental = fast backup, slow restore. Differential = slower backup, faster restore. The choice depends on whether the organization prioritizes backup window efficiency or recovery time.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q22</span>
+                    <p class="question-text">Explain the differences between <strong>electronic vaulting, remote journaling, and database shadowing</strong> as off-site data protection strategies.</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Electronic Vaulting:&lt;/strong&gt;\n• Transfers large batches of backup data to an off-site facility over a network connection\n• Operates on a scheduled basis (e.g., nightly) — not real-time\n• Similar to traditional tape rotation but eliminates physical transport\n• Data is typically a copy of the most recent backup set\n• &lt;strong&gt;RPO:&lt;/strong&gt; Hours to one day (depends on backup schedule)\n• Best for organizations that can tolerate some data loss between backup windows\n\n&lt;strong&gt;Remote Journaling:&lt;/strong&gt;\n• Transfers transaction logs (journal entries) to a remote site in near-real-time\n• Only the transaction records are sent — not the full database\n• The remote site can reconstruct the database by replaying the journal against a baseline copy\n• &lt;strong&gt;RPO:&lt;/strong&gt; Minutes — very little data loss\n• More bandwidth-efficient than full database replication since only changes are transmitted\n• Best for organizations that need low data loss but don\'t require instant failover\n\n&lt;strong&gt;Database Shadowing:&lt;/strong&gt;\n• Maintains a complete, live duplicate of the database at a remote location\n• Updates are applied to both the primary and shadow database simultaneously (or near-simultaneously)\n• The shadow database is always ready for immediate use if the primary fails\n• &lt;strong&gt;RPO:&lt;/strong&gt; Near-zero — minimal to no data loss\n• Most expensive option — requires significant bandwidth and processing resources\n• Best for mission-critical systems where any data loss is unacceptable (e.g., financial transactions)\n\n&lt;strong&gt;Key Progression:&lt;/strong&gt; Electronic vaulting → Remote journaling → Database shadowing represents increasing levels of data protection, decreasing RPO, and increasing cost.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q23</span>
+                    <p class="question-text">Why must <strong>restoration time</strong> (not just backup time) be a critical factor in disaster recovery planning?</p>
+                </div>
+                <textarea class="answer-textarea" placeholder="Write your answer here..."></textarea>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Why Restoration Time is Critical:&lt;/strong&gt;\n\nRestoration typically takes significantly longer than the backup process — often two to ten times longer depending on the system and method. This matters because:\n\n1. &lt;strong&gt;Recovery Time Objective (RTO):&lt;/strong&gt; The RTO defines the maximum acceptable downtime. If restoring a system takes 12 hours but the RTO is 4 hours, the backup strategy fails to meet business requirements — even if backups are technically successful.\n\n2. &lt;strong&gt;Cascading Delays:&lt;/strong&gt; Restoration involves more than just copying data back — it includes hardware provisioning, OS installation, application configuration, data verification, and testing. Each step adds time.\n\n3. &lt;strong&gt;Dependency Chains:&lt;/strong&gt; Systems often depend on other systems. Databases must be restored before applications that use them. Active Directory must be up before domain-joined servers. These dependencies create sequential bottlenecks.\n\n4. &lt;strong&gt;Backup Method Impact:&lt;/strong&gt;\n   • Full backup → Simplest restore (one set), but the backup file is large\n   • Incremental → Fastest backup, but restoration requires replaying every incremental in sequence — dramatically increasing restore time\n   • Differential → Middle ground — restore requires full + latest differential only\n\n5. &lt;strong&gt;Testing Requirement:&lt;/strong&gt; Organizations must regularly test their restoration process (not just backups) to verify that RTOs can actually be met. A backup that cannot be restored within the required timeframe provides a false sense of security.\n\n6. &lt;strong&gt;Business Impact:&lt;/strong&gt; Every hour of downtime has financial, reputational, and operational costs. Planning must account for realistic restoration timelines, not just backup completion times.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 8: Case Study ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2 class="section-title">Case Study Analysis</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q24</span>
+                    <p class="question-text">Ransomware & Backup Strategy Failure</p>
+                </div>
+                <div class="case-study-box">
+                    <div class="case-study-label">📋 Scenario</div>
+                    <p class="case-study-text">A logistics company performs only weekly full backups every Sunday night. On Thursday morning, a ransomware attack encrypts all file servers and the shared network drives. The IT team discovers that the most recent clean backup is from the previous Sunday — meaning four days of business data (Monday through Thursday) is potentially lost. The ransomware has also encrypted locally connected backup drives. The company's daily operations — shipment tracking, invoicing, and customer communications — are completely halted.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Identify the specific <strong>risks and failures</strong> in this company's backup strategy that led to this outcome.</p>
+                        <textarea class="answer-textarea" placeholder="Risks and failures: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Design an <strong>improved backup strategy</strong> that addresses each of the identified weaknesses. Specify backup types, frequency, and storage locations.</p>
+                        <textarea class="answer-textarea" placeholder="Improved backup strategy: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Explain whether <strong>incremental or differential</strong> backups would be more appropriate for this company and justify your recommendation.</p>
+                        <textarea class="answer-textarea" placeholder="Backup type recommendation: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Risks and Failures in the Current Strategy:&lt;/strong&gt;\n\n1. &lt;strong&gt;Infrequent backup schedule:&lt;/strong&gt; Weekly-only full backups create a maximum data loss window of up to 6 days — unacceptable for daily transactional data\n2. &lt;strong&gt;No intermediate backups:&lt;/strong&gt; No incremental or differential backups between weekly full backups to capture daily changes\n3. &lt;strong&gt;Backup media connected to the network:&lt;/strong&gt; Locally connected backup drives were accessible to the ransomware, which encrypted them along with production data — the \"backup\" was not isolated\n4. &lt;strong&gt;No off-site or air-gapped copies:&lt;/strong&gt; No geographically separate backup existed that the ransomware could not reach\n5. &lt;strong&gt;No immutable backup storage:&lt;/strong&gt; Backup media should use write-once or immutable storage that cannot be modified after creation\n6. &lt;strong&gt;Lack of backup verification/testing:&lt;/strong&gt; No indication that restore procedures were ever tested\n\n&lt;strong&gt;Improved Backup Strategy:&lt;/strong&gt;\n\nImplement the &lt;strong&gt;3-2-1 backup rule&lt;/strong&gt;:\n• &lt;strong&gt;3&lt;/strong&gt; copies of data (1 primary + 2 backups)\n• &lt;strong&gt;2&lt;/strong&gt; different storage media types (e.g., local disk + cloud)\n• &lt;strong&gt;1&lt;/strong&gt; copy stored off-site or in the cloud\n\nSpecific schedule:\n• &lt;strong&gt;Weekly full backup&lt;/strong&gt; every Sunday night (retain 4 weeks)\n• &lt;strong&gt;Daily differential or incremental backup&lt;/strong&gt; Monday through Saturday\n• &lt;strong&gt;Off-site replication:&lt;/strong&gt; Automated cloud backup to an isolated, immutable storage service (e.g., AWS S3 with Object Lock, Azure Immutable Blob)\n• &lt;strong&gt;Air-gapped backup:&lt;/strong&gt; Weekly offline copy (disconnected from network after backup completes)\n• &lt;strong&gt;Regular restore testing:&lt;/strong&gt; Monthly test of full system restoration to verify RTO and data integrity\n\n&lt;strong&gt;Incremental vs. Differential Recommendation:&lt;/strong&gt;\n\nFor this logistics company, &lt;strong&gt;differential backups&lt;/strong&gt; are the better choice:\n\n• &lt;strong&gt;Faster restoration:&lt;/strong&gt; A logistics company that is completely halted needs the fastest possible recovery. Differential requires only Sunday\'s full backup + the most recent differential — two backup sets. Incremental would require Sunday\'s full + Monday + Tuesday + Wednesday + Thursday — five sets in sequence.\n\n• &lt;strong&gt;Reduced risk of chain failure:&lt;/strong&gt; With incremental, if Wednesday\'s backup is corrupted, Thursday\'s data is also unrecoverable. Differential backups are independent of each other — each one stands alone with the full backup.\n\n• &lt;strong&gt;Acceptable trade-off:&lt;/strong&gt; Differential backups grow larger each day and take longer to perform, but for a company where downtime halts all operations, faster restore time is worth the larger backup window.\n\n• The slight increase in daily backup time and storage is a worthwhile trade-off for significantly reduced recovery time and complexity.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q25</span>
+                    <p class="question-text">Data Center Flood — Site Resumption Decision</p>
+                </div>
+                <div class="case-study-box">
+                    <div class="case-study-label">📋 Scenario</div>
+                    <p class="case-study-text">A regional bank's primary data center is destroyed by flooding following a severe storm. The facility is expected to be unusable for at least 3–4 months. The bank processes approximately 50,000 customer transactions daily, manages online banking services, and must comply with financial regulatory requirements for system availability. The bank currently has a service-level agreement (SLA) with its customers guaranteeing 99.9% uptime. Leadership must decide on a site resumption strategy immediately.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Explain which plans (IR, DR, BC) are activated and in <strong>what sequence</strong>, given the severity of this event.</p>
+                        <textarea class="answer-textarea" placeholder="Plan activation sequence: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Recommend the <strong>most appropriate alternate site type</strong> for this bank and justify your choice against the alternatives.</p>
+                        <textarea class="answer-textarea" placeholder="Recommended site type and justification: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Analyze the <strong>cost trade-offs</strong> between a hot site, warm site, and cold site for an organization with these requirements.</p>
+                        <textarea class="answer-textarea" placeholder="Cost trade-off analysis: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Plan Activation Sequence:&lt;/strong&gt;\n\n1. &lt;strong&gt;Incident Response (IR) — Activated immediately:&lt;/strong&gt;\n   • Assess the extent of the flood damage\n   • Ensure safety of all personnel (life safety is always the top priority)\n   • Determine which systems and data are affected\n   • Document the damage and begin incident reporting\n   • Determine that the data center is non-functional → trigger escalation\n\n2. &lt;strong&gt;Disaster Recovery (DR) — Activated upon escalation:&lt;/strong&gt;\n   • Activate the alternate site and begin IT system restoration\n   • Restore databases, transaction processing systems, and online banking platforms from backups or replicated data\n   • Restore network connectivity and telecommunications\n   • Verify system integrity and data consistency before going live\n\n3. &lt;strong&gt;Business Continuity (BC) — Activated in parallel with DR:&lt;/strong&gt;\n   • Relocate critical business staff to the alternate site or enable remote work\n   • Activate manual or workaround procedures for any systems not yet restored\n   • Communicate with customers, regulators, and stakeholders about service status\n   • Ensure compliance with regulatory requirements during the transition\n   • Maintain operations at the alternate site for the 3–4 month recovery period\n\nNote: DR and BC typically run in parallel during a major disaster — DR rebuilds the technology while BC keeps business operations going.\n\n&lt;strong&gt;Recommended Alternate Site: Hot Site&lt;/strong&gt;\n\nA hot site is the only appropriate option for this bank because:\n\n• &lt;strong&gt;Regulatory compliance:&lt;/strong&gt; Financial institutions are subject to strict availability requirements. A 99.9% uptime SLA allows less than 8.76 hours of downtime per year.\n• &lt;strong&gt;Transaction volume:&lt;/strong&gt; 50,000 daily transactions cannot wait days or weeks for systems to be provisioned. Every hour of downtime means lost transactions and potential regulatory penalties.\n• &lt;strong&gt;Immediate failover:&lt;/strong&gt; A hot site has fully configured systems, applications, and near-real-time data replication — it can take over within minutes to hours.\n• &lt;strong&gt;Customer trust:&lt;/strong&gt; Banking customers expect uninterrupted access to their accounts. Extended outages cause reputational damage and potential customer loss.\n\nWhy not the alternatives?\n• &lt;strong&gt;Warm site:&lt;/strong&gt; Has hardware but requires software installation, configuration, and data restoration — recovery could take 24–72 hours, violating the SLA\n• &lt;strong&gt;Cold site:&lt;/strong&gt; Only provides a building with power and network connections — hardware must be shipped and installed, taking days to weeks. Completely unsuitable for a bank.\n\n&lt;strong&gt;Cost Trade-Off Analysis:&lt;/strong&gt;\n\n&lt;strong&gt;Hot Site:&lt;/strong&gt;\n• Highest ongoing cost (duplicate hardware, software licenses, real-time data replication, dedicated staff)\n• Typical cost: Significant monthly/annual subscription or internal investment\n• Trade-off: Maximum protection, minimum downtime. For a bank, the cost of a hot site is far less than the cost of regulatory fines, lost transactions, and reputational damage from extended downtime.\n\n&lt;strong&gt;Warm Site:&lt;/strong&gt;\n• Moderate cost (hardware in place, but no live applications or current data)\n• Recovery time: 24–72 hours\n• Trade-off: Saves money on software licenses and data replication, but introduces significant recovery time — may be acceptable for non-financial organizations with more generous RTOs\n\n&lt;strong&gt;Cold Site:&lt;/strong&gt;\n• Lowest ongoing cost (only facility lease, power, and basic connectivity)\n• Recovery time: Days to weeks\n• Trade-off: Cheapest to maintain, but slowest to activate. Only appropriate for organizations where extended downtime is tolerable\n\n&lt;strong&gt;Conclusion:&lt;/strong&gt; For this bank, a hot site is not optional — it is a business and regulatory necessity. The cost is justified by the extreme financial and reputational consequences of prolonged downtime in financial services.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 9: Applied Design ==================== -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">09</span>
+                <h2 class="section-title">Applied Design Question</h2>
+            </div>
+
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-num">Q26</span>
+                    <p class="question-text">Backup Strategy Modernization — Cost-Benefit Analysis</p>
+                </div>
+                <div class="design-task-box">
+                    <div class="design-task-label">🎯 Design Task</div>
+                    <p class="case-study-text">A small engineering firm (45 employees, 12 TB of project data) currently uses a legacy tape-based backup system purchased 6 years ago for $8,000 with ongoing off-site storage costs of $1,200 per month. The firm is evaluating whether to migrate to a cloud-based backup solution. The tape system requires manual tape rotation, occasional failed backup jobs due to worn media, and a 2-day retrieval window when off-site tapes are needed. Design a <strong>modernization recommendation</strong> that analyzes both financial and operational factors.</p>
+                </div>
+                <div class="sub-questions">
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Calculate the firm's <strong>approximate annual and total cost</strong> of the current tape-based backup system over its 6-year lifespan, then compare it to estimated cloud backup costs.</p>
+                        <textarea class="answer-textarea" placeholder="Cost analysis: ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Identify at least <strong>five non-financial factors</strong> that should influence the decision to migrate from tape to cloud backup.</p>
+                        <textarea class="answer-textarea" placeholder="Non-financial factors: 1. ... 2. ... 3. ... 4. ... 5. ..."></textarea>
+                    </div>
+                    <div class="sub-question">
+                        <p class="sub-question-text"><span class="sub-question-marker">▸</span> Evaluate whether a <strong>consumer-grade cloud service</strong> (e.g., Dropbox) would be sufficient for 12 TB of enterprise backup, and recommend a more appropriate alternative if not.</p>
+                        <textarea class="answer-textarea" placeholder="Consumer cloud evaluation and recommendation: ..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-check" onclick="showModelAnswer(this, '&lt;strong&gt;Cost Analysis:&lt;/strong&gt;\n\n&lt;em&gt;Current Tape System (6-year lifespan):&lt;/em&gt;\n• Initial hardware cost: $8,000\n• Monthly off-site storage: $1,200 × 12 months = $14,400 per year\n• 6-year off-site storage total: $14,400 × 6 = $86,400\n• Total 6-year cost: $8,000 + $86,400 = &lt;strong&gt;$94,400&lt;/strong&gt;\n• Annual average: approximately &lt;strong&gt;$15,733/year&lt;/strong&gt;\n(This does not include hidden costs: staff time for manual tape rotation, failed backup remediation, replacement media, or the business cost of the 2-day retrieval window)\n\n&lt;em&gt;Estimated Cloud Backup (for 12 TB):&lt;/em&gt;\n• Enterprise cloud backup services (e.g., AWS S3, Azure Backup, Backblaze B2) typically cost $5–$25/TB/month depending on tier and features\n• At $10/TB/month: 12 TB × $10 = $120/month = &lt;strong&gt;$1,440/year&lt;/strong&gt;\n• At $25/TB/month (premium tier with faster restore): 12 TB × $25 = $300/month = &lt;strong&gt;$3,600/year&lt;/strong&gt;\n• Even the premium estimate is a fraction of the current $15,733/year\n\nNote: Cloud costs may increase with egress fees (data retrieval charges), but even with those factored in, the cloud option is substantially cheaper.\n\n&lt;strong&gt;Five Non-Financial Factors:&lt;/strong&gt;\n\n1. &lt;strong&gt;Recovery Time:&lt;/strong&gt; Cloud backup enables recovery in hours rather than the current 2-day window for off-site tape retrieval — critical if a disaster occurs\n\n2. &lt;strong&gt;Reliability:&lt;/strong&gt; Tape media degrades over time, leading to failed backups. Cloud storage providers offer 99.999999999% (11 nines) durability with redundant copies across multiple data centers\n\n3. &lt;strong&gt;Automation:&lt;/strong&gt; Cloud backup eliminates manual tape rotation, labeling, and transport — reducing human error and freeing IT staff time for other tasks\n\n4. &lt;strong&gt;Scalability:&lt;/strong&gt; Cloud storage can grow or shrink on demand as data volumes change. Tape systems require purchasing additional hardware and media\n\n5. &lt;strong&gt;Security and Compliance:&lt;/strong&gt; Enterprise cloud backup services offer encryption at rest and in transit, access controls, and audit logging. However, the firm must verify that the cloud provider meets any industry-specific compliance requirements\n\n6. &lt;strong&gt;Bandwidth Dependency:&lt;/strong&gt; Cloud backup requires reliable, high-bandwidth internet connectivity. The initial upload of 12 TB may take days or weeks depending on connection speed. This should be assessed before migration.\n\n&lt;strong&gt;Consumer Cloud Evaluation:&lt;/strong&gt;\n\nDropbox (or similar consumer services like Google Drive or OneDrive) is &lt;strong&gt;not appropriate&lt;/strong&gt; for 12 TB of enterprise backup:\n\n• &lt;strong&gt;Storage limits:&lt;/strong&gt; Consumer and most business plans have storage caps well below 12 TB\n• &lt;strong&gt;Not a backup tool:&lt;/strong&gt; Dropbox is a file synchronization service, not a backup solution — it lacks features like versioning policies, retention management, bare-metal restore, and scheduled backup jobs\n• &lt;strong&gt;No backup verification:&lt;/strong&gt; No hash verification, no backup integrity checks, no alerting on failed jobs\n• &lt;strong&gt;Ransomware vulnerability:&lt;/strong&gt; Sync services can propagate ransomware-encrypted files to the cloud, destroying the \"backup\"\n• &lt;strong&gt;Compliance gaps:&lt;/strong&gt; Lacks enterprise audit logging, retention policies, and compliance certifications\n\n&lt;strong&gt;Recommended Alternative:&lt;/strong&gt;\nEnterprise-grade backup solutions such as:\n• &lt;strong&gt;Veeam Backup &amp; Replication&lt;/strong&gt; (with cloud target — AWS, Azure, or Wasabi)\n• &lt;strong&gt;Acronis Cyber Protect&lt;/strong&gt; (integrated backup with cybersecurity features)\n• &lt;strong&gt;AWS Backup&lt;/strong&gt; or &lt;strong&gt;Azure Backup&lt;/strong&gt; (native cloud backup with immutable storage)\n• &lt;strong&gt;Backblaze B2 + MSP360&lt;/strong&gt; (cost-effective for smaller organizations)\n\nThese provide automated scheduling, encryption, immutable storage, compliance features, and verified restoration — essential capabilities that consumer cloud services lack.')">Show Model Answer</button>
+                <div class="feedback"></div>
+            </div>
+        </section>
+
+        <div class="action-bar">
+            <button class="btn btn-primary" onclick="resetAll()">🔄 Reset All Answers</button>
+            <button class="btn btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        </div>
+
+        <footer>
+            <p><strong>ICT 931</strong> — Cybersecurity Incident Response</p>
+            <p>Week 5: Contingency Strategies for IR / DR / BC</p>
+        </footer>
+    </div>
+
+    <script>
+        let totalQuestions = 20;
+        let answered = 0;
+        let correct = 0;
+        let incorrect = 0;
+
+        function updateProgress() {
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+        }
+
+        document.querySelectorAll('.question-card .options .option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.options');
+                parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.checkbox-option').forEach(option => {
+            option.addEventListener('click', function() { this.classList.toggle('selected'); });
+        });
+
+        document.querySelectorAll('.tf-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.tf-options');
+                parent.querySelectorAll('.tf-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        function checkMCQ(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            const correctAnswer = card.dataset.answer;
+            const selected = card.querySelector('.option.selected');
+            const feedback = card.querySelector('.feedback');
+            if (!selected) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please select an answer</div>'; feedback.className = 'feedback show incorrect'; return; }
+            const selectedValue = selected.dataset.value;
+            card.classList.add('answered'); answered++;
+            if (selectedValue === correctAnswer) {
+                card.classList.add('correct'); selected.classList.add('correct-answer');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect'); selected.classList.add('wrong-answer');
+                card.querySelector(`.option[data-value="${correctAnswer}"]`).classList.add('correct-answer');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is <strong>${correctAnswer}</strong>.`; feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function checkMulti(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            const correctAnswers = card.dataset.answer.split(',').sort();
+            const selected = Array.from(card.querySelectorAll('.checkbox-option.selected')).map(el => el.dataset.value).sort();
+            const feedback = card.querySelector('.feedback');
+            if (selected.length === 0) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please select at least one answer</div>'; feedback.className = 'feedback show incorrect'; return; }
+            card.classList.add('answered'); answered++;
+            const isCorrect = JSON.stringify(correctAnswers) === JSON.stringify(selected);
+            if (isCorrect) {
+                card.classList.add('correct'); feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect'); feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answers are: <strong>${correctAnswers.join(', ')}</strong>`; feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function checkTF(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            const correctAnswer = card.dataset.answer;
+            const selected = card.querySelector('.tf-option.selected');
+            const feedback = card.querySelector('.feedback');
+            if (!selected) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please select True or False</div>'; feedback.className = 'feedback show incorrect'; return; }
+            const selectedValue = selected.dataset.value;
+            card.classList.add('answered'); answered++;
+            if (selectedValue === correctAnswer) {
+                card.classList.add('correct'); selected.classList.add('correct-tf');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect'); selected.classList.add('incorrect-tf');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is <strong>${correctAnswer.charAt(0).toUpperCase() + correctAnswer.slice(1)}</strong>.`; feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function checkBlank(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            const input = card.querySelector('.blank-input');
+            const correctAnswer = input.dataset.answer.toLowerCase();
+            const userAnswer = input.value.trim().toLowerCase();
+            const feedback = card.querySelector('.feedback');
+            if (!userAnswer) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please enter an answer</div>'; feedback.className = 'feedback show incorrect'; return; }
+            card.classList.add('answered'); answered++;
+            const isCorrect = userAnswer === correctAnswer ||
+                             userAnswer.includes(correctAnswer) ||
+                             correctAnswer.includes(userAnswer) ||
+                             (correctAnswer === 'incremental' && userAnswer === 'incremental backup') ||
+                             (correctAnswer === '5' && (userAnswer === 'five' || userAnswer === 'raid 5')) ||
+                             (correctAnswer === 'electronic vaulting' && (userAnswer === 'e-vaulting' || userAnswer === 'evaulting' || userAnswer === 'electronic vault')) ||
+                             (correctAnswer === 'incident response' && (userAnswer === 'ir' || userAnswer === 'incident response plan' || userAnswer === 'irp'));
+            if (isCorrect) {
+                card.classList.add('correct'); input.classList.add('correct');
+                feedback.innerHTML = '<div class="feedback-header">✓ Correct!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect'); input.classList.add('incorrect');
+                feedback.innerHTML = `<div class="feedback-header">✗ Incorrect</div>The correct answer is: <strong>${input.dataset.answer}</strong>`; feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            input.disabled = true; btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function checkMatching(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            // A=Hot→3, B=Warm→4, C=Cold→1, D=Mobile→2
+            const correctMatches = { A: '3', B: '4', C: '1', D: '2' };
+            const selects = card.querySelectorAll('.matching-select');
+            const feedback = card.querySelector('.feedback');
+            let allFilled = true; let allCorrect = true;
+            selects.forEach(select => { if (!select.value) allFilled = false; if (select.value !== correctMatches[select.dataset.term]) allCorrect = false; });
+            if (!allFilled) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please complete all matches</div>'; feedback.className = 'feedback show incorrect'; return; }
+            card.classList.add('answered'); answered++;
+            if (allCorrect) {
+                card.classList.add('correct'); feedback.innerHTML = '<div class="feedback-header">✓ All matches correct!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.innerHTML = `<div class="feedback-header">✗ Some matches incorrect</div>Correct: Hot site→3 (Fully operational), Warm site→4 (Hardware ready, needs config), Cold site→1 (Basic facility only), Mobile site→2 (Transportable environment)`;
+                feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            selects.forEach(s => s.disabled = true); btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function checkOrdering(btn) {
+            const card = btn.closest('.question-card');
+            if (card.classList.contains('answered')) return;
+            const correctOrder = { ir: '1', escalate: '2', dr: '3', bc: '4', return: '5' };
+            const items = card.querySelectorAll('.ordering-item');
+            const feedback = card.querySelector('.feedback');
+            let allFilled = true; let allCorrect = true;
+            items.forEach(item => { const select = item.querySelector('.order-select'); if (!select.value) allFilled = false; if (select.value !== correctOrder[item.dataset.item]) allCorrect = false; });
+            if (!allFilled) { feedback.innerHTML = '<div class="feedback-header">⚠️ Please assign all sequence numbers</div>'; feedback.className = 'feedback show incorrect'; return; }
+            card.classList.add('answered'); answered++;
+            if (allCorrect) {
+                card.classList.add('correct'); feedback.innerHTML = '<div class="feedback-header">✓ Correct sequence!</div>'; feedback.className = 'feedback show correct'; correct++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.innerHTML = '<div class="feedback-header">✗ Incorrect sequence</div>Correct order: 1. Incident Response → 2. Escalation → 3. Disaster Recovery → 4. Business Continuity → 5. Return to Normal Operations';
+                feedback.className = 'feedback show incorrect'; incorrect++;
+            }
+            card.querySelectorAll('.order-select').forEach(s => s.disabled = true); btn.disabled = true; btn.textContent = 'Answered'; updateProgress();
+        }
+
+        function showModelAnswer(btn, answer) {
+            const feedback = btn.closest('.question-card').querySelector('.feedback');
+            feedback.innerHTML = `<div class="feedback-header" style="color: var(--accent-primary);">📝 Model Answer</div><div style="margin-top: 0.5rem; white-space: pre-line;">${answer}</div>`;
+            feedback.className = 'feedback show model';
+        }
+
+        function toggleHint(btn) {
+            const hint = btn.nextElementSibling;
+            hint.classList.toggle('show');
+            btn.textContent = hint.classList.contains('show') ? '💡 Hide Hint' : '💡 Show Hint';
+        }
+
+        function resetAll() {
+            if (confirm('Are you sure you want to reset all answers? This cannot be undone.')) { location.reload(); }
+        }
+    </script>
+</body>
+</html>
